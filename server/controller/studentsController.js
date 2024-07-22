@@ -64,7 +64,6 @@ const students_getTotalAllScores = async (req, res) => {
   }
 };
 
-
 const students_getOneFullName = async (req, res) => {
   try {
     const student = await Student_Model.findById(req.params.id);
