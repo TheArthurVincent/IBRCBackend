@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const database = require("./db/conn");
 const PORT = 3502;
-const path = require("path");
+const path = require("path"); 
 const cors = require("cors");
 const {
   students_getAll,
