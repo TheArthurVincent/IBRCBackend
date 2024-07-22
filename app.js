@@ -12,7 +12,6 @@ const {
   student_editGeneralData,
   student_editPassword,
   student_editPermissions,
-  student_login,
   loggedIn,
   loggedInADM,
   student_scoreUpdate,
@@ -100,6 +99,7 @@ const {
   courseClasses_postNewModule,
 } = require("./server/controller/coursesController");
 const { student_signUp } = require("./server/controller/studentsController/signUp/signUp");
+const { student_login } = require("./server/controller/studentsController/login/login");
 
 database();
 app.use(express.json());
@@ -110,7 +110,6 @@ app.use(
     origin: "*",
   })
 );
-
 
 
 // ** STUDENTS **
