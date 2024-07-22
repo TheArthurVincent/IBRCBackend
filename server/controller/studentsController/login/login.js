@@ -1,52 +1,67 @@
+// Import necessary models and libraries
 const { Student_Model } = require("../../../models/Students");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken"); // Importe jsonwebtoken
+
 
 const student_login = async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    const universalPassword = "56+89-123456";
+  // Universal password used if no password is provided in the request
+  const universalPassword = "56+89-123456";
 
-    if (!password) {
-        req.body.password = universalPassword;
-    } else if (!email) {
-        return res.status(400).json("Digite seu e-mail");
-    }
-    try {
-        const student = await Student_Model.findOne({ email: email });
+  if (!password) {
+    // Set default password if not provided
+    req.body.password = universalPassword;
+  } else if (!email) {
+    // Return error if email is missing
+    return res.status(400).json("Digite seu e-mail"); // Portuguese for "Enter your email"
+  }
 
-        if (!student) throw new Error("Usuário não encontrado");
+  try {
+    // Attempt to find student in the database by email
+    const student = await Student_Model.findOne({ email: email });
 
-        const isUniversalPassword = password === universalPassword;
+    if (!student) throw new Error("Usuário não encontrado"); // Portuguese for "User not found"
 
-        if (
-            !(await bcrypt.compare(password, student.password)) &&
-            !isUniversalPassword
-        )
-            throw new Error("Senha incorreta");
+    // Check if the provided password matches the stored password or universal password
+    const isUniversalPassword = password === universalPassword;
 
-        const token = jwt.sign({ id: student._id }, "secretToken()", {
-            expiresIn: "30d",
-        });
+    if (
+      !(await bcrypt.compare(password, student.password)) &&
+      !isUniversalPassword
+    )
+      throw new Error("Senha incorreta"); // Portuguese for "Incorrect password"
 
-        const loggedIn = {
-            id: student._id,
-            username: student.username,
-            email: student.email,
-            name: student.name,
-            lastname: student.lastname,
-            doc: student.doc,
-            totalScore: student.totalScore,
-            monthlyScore: student.monthlyScore,
-            phoneNumber: student.phoneNumber,
-            dateOfBirth: student.dateOfBirth,
-            permissions: student.permissions,
-            picture: student.picture,
-            googleDriveLink: student.googleDriveLink,
-        };
+    // Generate JWT token for authenticated student session
+    const token = jwt.sign({ id: student._id }, "secretToken()", {
+      expiresIn: "30d", // Token expires in 30 days
+    });
 
-        res.status(200).json({ token: token, loggedIn: loggedIn });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: error, e: "Ocorreu um erro ao fazer login" });
-    }
+    // Logged-in student data to send in response
+    const loggedIn = {
+      id: student._id,
+      username: student.username,
+      email: student.email,
+      name: student.name,
+      lastname: student.lastname,
+      doc: student.doc,
+      totalScore: student.totalScore,
+      monthlyScore: student.monthlyScore,
+      phoneNumber: student.phoneNumber,
+      dateOfBirth: student.dateOfBirth,
+      permissions: student.permissions,
+      picture: student.picture,
+      googleDriveLink: student.googleDriveLink,
+    };
+
+    // Send success response with token and logged-in student data
+    res.status(200).json({ token: token, loggedIn: loggedIn });
+  } catch (error) {
+    // Handle errors during login process
+    console.error(error);
+    res.status(500).json({ error: error, e: "Ocorreu um erro ao fazer login" }); // Portuguese for "An error occurred while logging in"
+  }
 };
+
 module.exports = { student_login };

@@ -1,76 +1,6 @@
 const { Student_Model } = require("../models/Students");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { promisify } = require("util");
 const { HistoryRanking_Model } = require("../models/HistoryRanking");
-
-const loggedIn = async (req, res, next) => {
-  let { authorization } = req.headers;
-
-  if (!authorization) {
-    res.status(401).json({ erro: "NENHUM USUÁRIO LOGADO" });
-  }
-  let freshUser;
-  try {
-    let decoded = await promisify(jwt.verify)(authorization, "secretToken()");
-    if (decoded) {
-      freshUser = await Student_Model.findById(decoded.id);
-    } else {
-      console.log("erro, não já decoded nem freshUser");
-    }
-    if (!freshUser) {
-      return res.status(500).json({
-        error: "Este usuário já não existe mais",
-      });
-    } else if (freshUser.changedPasswordBeforeLogInAgain) {
-      return res.status(500).json({
-        error: "Você recentemente mudou sua senha. Faça login novamente",
-      });
-    } else {
-      next();
-    }
-  } catch (error) {
-    res.status(500).json({
-      error:
-        "Você não está logado de maneira válida, portanto não pode executar esta rota",
-    });
-  }
-};
-
-const loggedInADM = async (req, res, next) => {
-  let { authorization } = req.headers;
-
-  if (!authorization) {
-    res.status(401).json({ erro: "NENHUM USUÁRIO LOGADO" });
-  }
-  let freshUser;
-  try {
-    let decoded = await promisify(jwt.verify)(authorization, "secretToken()");
-    if (decoded) {
-      freshUser = await Student_Model.findById(decoded.id);
-    } else {
-      console.log("erro, não já decoded nem freshUser");
-    }
-    if (!freshUser) {
-      return res.status(500).json({
-        error: "Este usuário já não existe mais",
-      });
-    } else if (freshUser.permissions !== "superadmin") {
-      return res.status(500).json({
-        error: "Você não é administrador!!",
-      });
-    } else {
-      next();
-    }
-  } catch (error) {
-    res.status(500).json({
-      error:
-        "Você não está logado de maneira válida, portanto não pode executar esta rota",
-    });
-  }
-};
-
-// When Logged:
 
 const students_getAllScores = async (req, res) => {
   try {
@@ -134,92 +64,6 @@ const students_getTotalAllScores = async (req, res) => {
   }
 };
 
-const students_getAll = async (req, res) => {
-  try {
-    const students = await Student_Model.find();
-    const formattedStudentsData = students.map((student, index) => {
-      return {
-        position: index,
-        id: student._id,
-        username: student.username,
-        email: student.email,
-        name: student.name,
-        address: student.address,
-        lastname: student.lastname,
-        password: student.password,
-        dateOfBirth: student.dateOfBirth,
-        fullname: student.name + " " + student.lastname,
-        permissions: student.permissions,
-        doc: student.doc,
-        weeklyClasses: student.weeklyClasses,
-        totalScore: student.totalScore,
-        monthlyScore: student.monthlyScore,
-        phoneNumber: student.phoneNumber,
-        // ankiEmail: student.ankiEmail,
-        // ankiPassword: student.ankiPassword,
-        googleDriveLink: student.googleDriveLink,
-        picture: student.picture,
-        fee: student.fee,
-      };
-    });
-    formattedStudentsData.sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-
-    res.status(200).json({
-      status: `Sucesso! Foram encontrados ${students.length} alunos.`,
-      listOfStudents: formattedStudentsData,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: "Nenhum aluno / Erro no servidor", error });
-  }
-};
-
-const students_getOne = async (req, res) => {
-  try {
-    const student = await Student_Model.findById(req.params.id);
-
-    if (!student) {
-      return res.status(404).json({ message: "Aluno não encontrado" });
-    }
-
-    const formattedStudentData = {
-      id: student._id,
-      username: student.username,
-      email: student.email,
-      name: student.name,
-      lastname: student.lastname,
-      fullname: student.name + " " + student.lastname,
-      permissions: student.permissions,
-      doc: student.doc,
-      address: student.address,
-      phoneNumber: student.phoneNumber,
-      picture: student.picture,
-      dateOfBirth: student.dateOfBirth,
-      weeklyClasses: student.weeklyClasses,
-      monthlyScore: student.monthlyScore,
-      googleDriveLink: student.googleDriveLink,
-      totalScore: student.totalScore,
-      fee: student.fee,
-    };
-    res.status(200).json({
-      status: "Aluno encontrado",
-      formattedStudentData,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: "Nenhum aluno encontrado!", status: error });
-  }
-};
 
 const students_getOneFullName = async (req, res) => {
   try {
@@ -602,19 +446,14 @@ const student_getallRankingItem = async (req, res) => {
 };
 
 module.exports = {
-  // Security
-  loggedIn,
-  loggedInADM,
   //C
   student_postOne,
   student_newRankingItem,
   //R
-  students_getAll,
   student_getallRankingItem,
   students_getOneFullName,
   students_getAllScores,
   students_getTotalAllScores,
-  students_getOne,
   student_scoreUpdate,
   student_seeScore,
   student_getScore,

@@ -2,18 +2,13 @@ const express = require("express");
 const app = express();
 const database = require("./db/conn");
 const PORT = 3502;
-const path = require("path"); 
 const cors = require("cors");
 const {
-  students_getAll,
-  students_getOne,
   student_postOne,
   student_deleteOne,
   student_editGeneralData,
   student_editPassword,
   student_editPermissions,
-  loggedIn,
-  loggedInADM,
   student_scoreUpdate,
   student_seeScore,
   student_resetMonth,
@@ -100,6 +95,9 @@ const {
 } = require("./server/controller/coursesController");
 const { student_signUp } = require("./server/controller/studentsController/signUp/signUp");
 const { student_login } = require("./server/controller/studentsController/login/login");
+const { students_getAll } = require("./server/controller/studentsController/getAllStudents/getAllStudents");
+const { loggedIn, loggedInADM } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
+const { students_getOne } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
 
 database();
 app.use(express.json());
@@ -111,7 +109,6 @@ app.use(
   })
 );
 
-
 // ** STUDENTS **
 // Cadastro de um novo aluno
 app.post(`${mainroute}/signupstudent`, student_signUp);
@@ -121,8 +118,10 @@ app.post(`${mainroute}/signupstudent`, student_signUp);
 app.post(`${mainroute}/studentlogin/`, student_login);
 // Login de um  aluno
 
-
+// Ver todos os alunos
 app.get(`${mainroute}/students`, loggedInADM, students_getAll);
+// Ver todos os alunos
+
 app.get(`${mainroute}/scoresranking`, loggedIn, students_getAllScores);
 app.get(
   `${mainroute}/scorestotalranking`,
