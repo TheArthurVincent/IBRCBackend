@@ -7,62 +7,6 @@ const { CourseInfo_Model } = require("../models/CourseClass");
 
 // Login stuff
 
-const student_signUp = async (req, res) => {
-  const {
-    name,
-    lastname,
-    username,
-    phoneNumber,
-    email,
-    dateOfBirth,
-    doc,
-    address,
-    password,
-  } = req.body;
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-  try {
-    const existingStudent = await Student_Model.findOne({
-      $or: [{ email: email }, { doc: doc }, { username: username }],
-    });
-
-    if (existingStudent) {
-      return res
-        .status(400)
-        .json({ message: "Email, doc ou username já estão em uso" });
-    }
-
-    const newStudent = new Student_Model({
-      name,
-      lastname,
-      username,
-      phoneNumber,
-      email,
-      dateOfBirth,
-      doc,
-      address,
-      password: hashedPassword,
-    });
-    await newStudent.save();
-
-    console.log(newStudent.id);
-    const register = "";
-    const englishGrammarCourse = await CourseInfo_Model.findById(
-      "667a9dd14648eac1993646fc"
-    );
-    englishGrammarCourse.studentsWhoHaveAccessToIt.push(newStudent.id);
-    englishGrammarCourse.save();
-
-    res.status(201).json({
-      status: "Aluno registrado",
-      newStudent,
-      register,
-    });
-  } catch (error) {
-    res.status(500).json({ Erro: "Aluno não registrado", error });
-  }
-};
-
 const student_login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -407,59 +351,6 @@ const student_postOne = async (req, res) => {
   }
 };
 
-const signup = async (req, res) => {
-  const {
-    username,
-    email,
-    password,
-    name,
-    lastname,
-    doc,
-    phoneNumber,
-    dateOfBirth,
-  } = req.body;
-
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-  try {
-    const existingStudent = await Student_Model.findOne({
-      $or: [{ email: email }, { doc: doc }, { username: username }],
-    });
-
-    if (existingStudent) {
-      return res
-        .status(400)
-        .json({ message: "Email, doc ou username já estão em uso" });
-    }
-
-    const newStudent = new Student_Model({
-      username,
-      email,
-      password: hashedPassword,
-      name,
-      lastname,
-      doc,
-      phoneNumber,
-      dateOfBirth,
-    });
-
-    const token = jwt.sign({ id: newStudent._id }, "secretToken()", {
-      expiresIn: "15d",
-    });
-
-    await newStudent.save();
-
-    res.status(201).json({
-      status: "Aluno registrado, logando no sistema",
-      data: { newStudent },
-      token,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Aluno não cadastrado", error: error });
-  }
-};
-
 const student_editGeneralData = async (req, res) => {
   const {
     name,
@@ -771,8 +662,6 @@ module.exports = {
   loggedInADM,
   //C
   student_postOne,
-  student_signUp,
-  signup,
   student_newRankingItem,
   //R
   students_getAll,

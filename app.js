@@ -23,7 +23,6 @@ const {
   students_getOneFullName,
   student_editPersonalPassword,
   students_getTotalAllScores,
-  student_signUp,
   student_newRankingItem,
   student_getallRankingItem,
 } = require("./server/controller/studentsController");
@@ -100,6 +99,7 @@ const {
   courseClasses_postNewCourse,
   courseClasses_postNewModule,
 } = require("./server/controller/coursesController");
+const { student_signUp } = require("./server/controller/studentsController/signUp/signUp");
 
 database();
 app.use(express.json());
@@ -111,11 +111,64 @@ app.use(
   })
 );
 
-app.use("/uploads", express.static(path.resolve(__dirname, "upload")));
+
+
+// ** STUDENTS **
+// Cadastro de um novo aluno
+app.post(`${mainroute}/signupstudent`, student_signUp);
+// Cadastro de um novo aluno
+
+// Login de um  aluno
+app.post(`${mainroute}/studentlogin/`, student_login);
+// Login de um  aluno
+
+
+app.get(`${mainroute}/students`, loggedInADM, students_getAll);
+app.get(`${mainroute}/scoresranking`, loggedIn, students_getAllScores);
+app.get(
+  `${mainroute}/scorestotalranking`,
+  loggedIn,
+  students_getTotalAllScores
+);
+app.post(`${mainroute}/newitemhistory`, student_newRankingItem);
+app.get(`${mainroute}/newitemhistory`, student_getallRankingItem);
+
+
+app.get(`${mainroute}/score/:id`, loggedIn, student_getScore);
+app.get(`${mainroute}/score/:id`, loggedIn, student_seeScore);
+app.put(`${mainroute}/score/:id`, student_scoreUpdate);
+app.get(`${mainroute}/student/:id`, loggedIn, students_getOne);
+app.get(`${mainroute}/studentname/:id`, loggedIn, students_getOneFullName);
+app.post(`${mainroute}/students`, loggedInADM, student_postOne);
+
+app.put(`${mainroute}/students/:id`, loggedInADM, student_editGeneralData);
+app.put(`${mainroute}/studentpassword/:id`, loggedInADM, student_editPassword);
+app.put(
+  `${mainroute}/studentperspassword/:id`,
+  loggedIn,
+  student_editPersonalPassword
+);
+app.put(
+  `${mainroute}/studentpermissions/:id`,
+  loggedInADM,
+  student_editPermissions
+);
+app.put("/api/v1/resetmonthscoresecurethepoints", student_resetMonth);
+
+app.delete(`${mainroute}/students/:id`, loggedInADM, student_deleteOne);
+
+
+
+
+
+
+
+
+
+
+
 
 // ** COURSES **
-// app.get(`${mainroute}/courses`, loggedIn, groupClasses_getCoursesTitles);
-// app.get(`${mainroute}/course`, loggedIn, groupClasses_getOneCourse);
 app.get(`${mainroute}/allgroupclasses`, loggedIn, groupClasses_getAllObjects);
 
 // ** TUTORING - Aulas Particulares **
@@ -190,57 +243,6 @@ app.get(`${mainroute}/nexttutoring`, loggedIn, nextTutoring_seeAllTutorings);
 app.post(`${mainroute}/nexttutoring`, loggedInADM, nextTutoring_editNext);
 app.get(`${mainroute}/nexttutoring/:id`, loggedIn, tutoring_getNext);
 
-// ** STUDENTS **
-app.post(`${mainroute}/studentlogin/`, student_login);
-app.get(`${mainroute}/students`, loggedInADM, students_getAll);
-app.get(`${mainroute}/scoresranking`, loggedIn, students_getAllScores);
-app.get(
-  `${mainroute}/scorestotalranking`,
-  loggedIn,
-  students_getTotalAllScores
-);
-app.post(`${mainroute}/newitemhistory`, student_newRankingItem);
-app.get(`${mainroute}/newitemhistory`, student_getallRankingItem);
-
-
-app.get(`${mainroute}/score/:id`, loggedIn, student_getScore);
-app.get(`${mainroute}/score/:id`, loggedIn, student_seeScore);
-app.put(`${mainroute}/score/:id`, student_scoreUpdate);
-app.get(`${mainroute}/student/:id`, loggedIn, students_getOne);
-app.get(`${mainroute}/studentname/:id`, loggedIn, students_getOneFullName);
-app.post(`${mainroute}/students`, loggedInADM, student_postOne);
-app.post(`${mainroute}/signupstudent`, student_signUp);
-app.put(`${mainroute}/students/:id`, loggedInADM, student_editGeneralData);
-app.put(`${mainroute}/studentpassword/:id`, loggedInADM, student_editPassword);
-app.put(
-  `${mainroute}/studentperspassword/:id`,
-  loggedIn,
-  student_editPersonalPassword
-);
-app.put(
-  `${mainroute}/studentpermissions/:id`,
-  loggedInADM,
-  student_editPermissions
-);
-app.put("/api/v1/resetmonthscoresecurethepoints", student_resetMonth);
-// app.put("/api/v1/setweeklyclasses", async (req, res) => {
-//   try {
-//     const students = await Student_Model.find();
-//     students.map((student) => {
-//       student.weeklyClasses = 1;
-//       student.save();
-//     });
-//     res.status(200).json({ students, status: "success" });
-//   } catch (error) {
-//     console.error(error);
-//     res
-//       .status(500)
-//       .json({ error: error, e: "Ocorreu um erro ao atualizar as aulas" });
-//   }
-// });
-
-app.delete(`${mainroute}/students/:id`, loggedInADM, student_deleteOne);
-
 // **Material**
 app.post(`${mainroute}/material`, loggedInADM, material_postNew);
 app.delete(`${mainroute}/material/:id`, loggedInADM, material_deleteOne);
@@ -271,19 +273,6 @@ app.delete(`${mainroute}/flashcard/:id`, flashcard_deleteCard);
 app.post(`${mainroute}/liveclass`, nextLiveClass_postNext);
 app.get(`${mainroute}/liveclasses`, loggedIn, nextLiveClass_getNext);
 app.get(`${mainroute}/sendnotificationemail`, event_reminderEventAutomatic);
-// app.get(`${mainroute}/sendgroupclassnotificationemail`, event_reminderGroupClassAutomatic);
-
-app.get(`${mainroute}/testeemail`, async (req, res, next) => {
-  let html = "<h1>Hello</h1>",
-    text = "Hello world",
-    suject = "teste",
-    name = "Nik",
-    email = "_nikmoliveira@gmail.com";
-
-  await sendEmail(html, text, suject, name, email);
-
-  res.send(200).end();
-});
 
 // ** App rodando **
 app.listen(PORT, () => {
