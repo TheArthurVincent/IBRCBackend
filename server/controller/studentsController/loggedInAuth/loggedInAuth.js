@@ -52,7 +52,7 @@ const loggedInADM = async (req, res, next) => {
     let { authorization } = req.headers;
 
     if (!authorization) {
-        return res.status(401).json({ erro: "NENHUM USUÁRIO LOGADO" }); // Portuguese for "NO USER LOGGED IN"
+        return res.status(401).json({ erro: "NENHUM USUÁRIO LOGADO" });
     }
 
     let freshUser;
@@ -66,11 +66,11 @@ const loggedInADM = async (req, res, next) => {
 
         if (!freshUser) {
             return res.status(500).json({
-                error: "Este usuário já não existe mais", // Portuguese for "This user no longer exists"
+                error: "Este usuário já não existe mais",
             });
         } else if (freshUser.permissions !== "superadmin") {
             return res.status(500).json({
-                error: "Você não é administrador!!", // Portuguese for "You are not an administrator!!"
+                error: "Você não é administrador!!",
             });
         } else {
             next();
@@ -78,7 +78,7 @@ const loggedInADM = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({
             error:
-                "Você não está logado de maneira válida, portanto não pode executar esta rota", // Portuguese for "You are not logged in validly, so you cannot execute this route"
+                "Você não está logado de maneira válida, portanto não pode executar esta rota",
         });
     }
 };
