@@ -15,7 +15,7 @@ const {
   student_getScore,
   students_getOneFullName,
   student_editPersonalPassword,
-  student_newRankingItem,
+
 } = require("./server/controller/studentsController");
 const {
   blogPosts_getAll,
@@ -89,6 +89,8 @@ const {
   courseClasses_postNewCourse,
   courseClasses_postNewModule,
 } = require("./server/controller/coursesController");
+
+///
 const { student_signUp } = require("./server/controller/studentsController/signUp/signUp");
 const { student_login } = require("./server/controller/studentsController/login/login");
 const { students_getAll } = require("./server/controller/studentsController/getAllStudents/getAllStudents");
@@ -97,6 +99,7 @@ const { students_getOne } = require("./server/controller/studentsController/getO
 const { students_getAllScores } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
 const { students_getTotalAllScores } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
 const { student_getAllRankingItems } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
+const { student_newRankingItem } = require("./server/controller/studentsController/Ranking/newRankingItem/newRankingItem");
 
 database();
 app.use(express.json());
@@ -116,7 +119,7 @@ app.post(`${mainroute}/studentlogin/`, student_login);
 // Login de um  aluno
 
 // Ver todos os alunos
-app.get(`${mainroute}/students`, loggedInADM, students_getAll);
+app.get(`${mainroute}/students`, loggedIn, loggedInADM, students_getAll);
 // Ver todos os alunos
 
 // Score mensal dos alunos
@@ -128,12 +131,12 @@ app.get(`${mainroute}/scorestotalranking`, loggedIn, students_getTotalAllScores)
 // Score total dos alunos
 
 // Itens de histórico de vencedores
-app.get(`${mainroute}/allitemhistory`, student_getAllRankingItems);
+app.get(`${mainroute}/allitemhistory`, loggedIn, loggedInADM, student_getAllRankingItems);
 // Itens de histórico de vencedores
 
-
-app.post(`${mainroute}/newitemhistory`, student_newRankingItem);
-
+// Novo item de histórico dos rankings
+app.post(`${mainroute}/newitemhistory`, loggedIn, loggedInADM, student_newRankingItem);
+// Novo item de histórico dos rankings
 
 app.get(`${mainroute}/score/:id`, loggedIn, student_getScore);
 app.get(`${mainroute}/score/:id`, loggedIn, student_seeScore);
@@ -190,8 +193,12 @@ app.get(
   tutoring_getListOfAParticularMonthOfAStudent
 );
 
-app.delete(`${mainroute}/tutoring/:id`, loggedInADM, tutoring_deleteOne);
-app.post(`${mainroute}/tutoring`, loggedInADM, tutoring_postOne);
+app.delete(`${mainroute}/tutoring/:id`,
+  loggedIn,
+  loggedInADM, tutoring_deleteOne);
+app.post(`${mainroute}/tutoring`,
+  loggedIn,
+  loggedInADM, tutoring_postOne);
 
 // * events *
 app.get(`${mainroute}/eventsgeneral/:id`, loggedIn, events_seeAll);
@@ -209,30 +216,30 @@ app.get(
   `${mainroute}/tutoringsevents/:studentId`,
   events_seeAllTutoringsFromOneStudent
 );
-app.put(`${mainroute}/tutoringevent`, events_editOneTutoring);
+app.put(`${mainroute}/tutoringevent`, loggedIn, loggedInADM, events_editOneTutoring);
 
 // * Homework *
 app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
-app.put(`${mainroute}/homework/:id`, homework_done);
+app.put(`${mainroute}/homework/:id`, loggedIn, loggedInADM, homework_done);
 // app.put(`${mainroute}/homeworkallpending`,homework_allpending  );
 
 // * Courses Management *
-app.post(`${mainroute}/courseclasses`, courseClasses_postMultipleClasses);
-app.post(`${mainroute}/course`, courseClasses_postNewCourse);
-app.post(`${mainroute}/module`, courseClasses_postNewModule)
+app.post(`${mainroute}/courseclasses`, loggedIn, loggedInADM, courseClasses_postMultipleClasses);
+app.post(`${mainroute}/course`, loggedIn, loggedInADM, courseClasses_postNewCourse);
+app.post(`${mainroute}/module`, loggedIn, loggedInADM, courseClasses_postNewModule)
 
-app.get(`${mainroute}/courses/:studentId`, courseClasses_getAll);
-app.get(`${mainroute}/course/:id`, courseClasses_getOne);
+app.get(`${mainroute}/courses/:studentId`, loggedIn, courseClasses_getAll);
+app.get(`${mainroute}/course/:id`, loggedIn, courseClasses_getOne);
 
 // * group classes *
-app.post(`${mainroute}/groupclass`, loggedInADM, groupClasses_postOneClass);
-app.put(`${mainroute}/groupclass/:id`, loggedInADM, groupClasses_editOneClass);
+app.post(`${mainroute}/groupclass`, loggedIn, loggedInADM, groupClasses_postOneClass);
+app.put(`${mainroute}/groupclass/:id`, loggedIn, loggedInADM, groupClasses_editOneClass);
 app.get(
   `${mainroute}/groupclass/`,
-  loggedIn,
+  loggedIn, loggedInADM,
   groupClasses_getClassesFromOneModule
 );
-app.get(`${mainroute}/groupclass/:id`, loggedIn, groupClasses_getOne);
+app.get(`${mainroute}/groupclass/:id`, loggedIn, loggedInADM, groupClasses_getOne);
 app.delete(
   `${mainroute}/groupclass/:id`,
   loggedInADM,
@@ -254,12 +261,12 @@ app.get(`${mainroute}/material/:id`, loggedIn, material_getOne);
 // **BLOG POSTS**
 app.get(`${mainroute}/blogposts`, loggedIn, blogPosts_getAll);
 app.get(`${mainroute}/blogpost/:id`, loggedIn, blogPosts_getOne);
-app.post(`${mainroute}/blogposts`, loggedInADM, blogPosts_postOne);
-app.put(`${mainroute}/blogposts/:id`, loggedInADM, blogPosts_editOne);
-app.delete(`${mainroute}/blogposts/:id`, loggedInADM, blogPosts_deleteOne);
+app.post(`${mainroute}/blogposts`, loggedIn, loggedInADM, blogPosts_postOne);
+app.put(`${mainroute}/blogposts/:id`, loggedIn, loggedInADM, blogPosts_editOne);
+app.delete(`${mainroute}/blogposts/:id`, loggedIn, loggedInADM, blogPosts_deleteOne);
 
 // Flashcards
-app.post(`${mainroute}/flashcard/:id`, flashcard_createNew);
+app.post(`${mainroute}/flashcard/:id`, loggedIn, flashcard_createNew);
 
 app.get(`${mainroute}/flashcardfindone/:id`, loggedIn, flashcard_getOne);
 app.get(`${mainroute}/cards/:id`, loggedIn, allCardsList);
@@ -267,13 +274,13 @@ app.get(`${mainroute}/cards/:id`, loggedIn, allCardsList);
 app.get(`${mainroute}/flashcards/:id`, loggedIn, reviewList);
 
 app.put(`${mainroute}/reviewflashcard/:id`, loggedIn, flashcard_reviewCard);
-app.put(`${mainroute}/flashcard/:id`, flashcard_updateOne);
-app.delete(`${mainroute}/flashcard/:id`, flashcard_deleteCard);
+app.put(`${mainroute}/flashcard/:id`, loggedIn, flashcard_updateOne);
+app.delete(`${mainroute}/flashcard/:id`, loggedIn, flashcard_deleteCard);
 
 // Live Classes
-app.post(`${mainroute}/liveclass`, nextLiveClass_postNext);
+app.post(`${mainroute}/liveclass`, loggedIn, nextLiveClass_postNext);
 app.get(`${mainroute}/liveclasses`, loggedIn, nextLiveClass_getNext);
-app.get(`${mainroute}/sendnotificationemail`, event_reminderEventAutomatic);
+app.get(`${mainroute}/sendnotificationemail`, loggedIn, event_reminderEventAutomatic);
 
 // ** App rodando **
 app.listen(PORT, () => {

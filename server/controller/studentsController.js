@@ -372,9 +372,9 @@ const student_newRankingItem = async (req, res) => {
 };
 
 module.exports = {
+  student_newRankingItem,
   //C
   student_postOne,
-  student_newRankingItem,
   //R
   students_getOneFullName,
   student_scoreUpdate,
