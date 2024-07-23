@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 async function main() {
   try {
     await mongoose.connect(
-      "mongodb+srv://actualvincent:VRdsUMFo8rJ70KKX@arvin.aotxd5a.mongodb.net/?retryWrites=true&w=majority",
-      // "mongodb+srv://devtestarvin:SolusChristus%232024@cluster0.3cyvcjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+      "mongodb+srv://actualvincent:VRdsUMFo8rJ70KKX@arvin.aotxd5a.mongodb.net/?retryWrites=true&w=majority", // Banco de produção
+      // "mongodb+srv://devtestarvin:SolusChristus%232024@cluster0.3cyvcjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",  // Banco de produção
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
