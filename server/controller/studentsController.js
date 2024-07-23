@@ -371,24 +371,11 @@ const student_newRankingItem = async (req, res) => {
   }
 };
 
-const student_getallRankingItem = async (req, res) => {
-  try {
-    const scoreMonth = await HistoryRanking_Model.find();
-    res
-      .status(200)
-      .json({ scoreMonth: scoreMonth.reverse(), message: "Sucesso" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error, e: "Ocorreu um erro " });
-  }
-};
-
 module.exports = {
   //C
   student_postOne,
   student_newRankingItem,
   //R
-  student_getallRankingItem,
   students_getOneFullName,
   student_scoreUpdate,
   student_seeScore,

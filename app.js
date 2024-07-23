@@ -16,7 +16,6 @@ const {
   students_getOneFullName,
   student_editPersonalPassword,
   student_newRankingItem,
-  student_getallRankingItem,
 } = require("./server/controller/studentsController");
 const {
   blogPosts_getAll,
@@ -97,6 +96,7 @@ const { loggedIn, loggedInADM } = require("./server/controller/studentsControlle
 const { students_getOne } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
 const { students_getAllScores } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
 const { students_getTotalAllScores } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
+const { student_getAllRankingItems } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankinfItems");
 
 database();
 app.use(express.json());
@@ -129,18 +129,12 @@ app.get(`${mainroute}/scoresranking`, loggedIn, students_getAllScores);
 app.get(`${mainroute}/scorestotalranking`, loggedIn, students_getTotalAllScores);
 // Score total dos alunos
 
-
-
-
-
-
-
-
-
+// Itens de histórico de vencedores
+app.get(`${mainroute}/allitemhistory`, student_getAllRankingItems);
+// Itens de histórico de vencedores
 
 
 app.post(`${mainroute}/newitemhistory`, student_newRankingItem);
-app.get(`${mainroute}/newitemhistory`, student_getallRankingItem);
 
 
 app.get(`${mainroute}/score/:id`, loggedIn, student_getScore);
