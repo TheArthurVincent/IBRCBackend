@@ -96,18 +96,16 @@ const { loggedIn, loggedInADM } = require("./server/controller/studentsControlle
 const { students_getOne } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
 const { students_getAllScores } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
 const { students_getTotalAllScores } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
-const { student_getAllRankingItems } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankinfItems");
+const { student_getAllRankingItems } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
 
 database();
 app.use(express.json());
 const mainroute = "/api/v1";
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors({ origin: "*" }));
 
+// ** STUDENTS **
+// ** STUDENTS **
 // ** STUDENTS **
 // Cadastro de um novo aluno
 app.post(`${mainroute}/signupstudent`, student_signUp);
