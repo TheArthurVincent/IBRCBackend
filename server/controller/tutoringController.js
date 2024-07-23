@@ -75,7 +75,6 @@ const tutoring_postOne = async (req, res) => {
         }
       );
 
-      // Salvar a tutoria
       await newTutoring.save();
       savedTutorings.push(newTutoring);
     }
