@@ -70,7 +70,6 @@ const {
   event_reminderEvent,
   event_reminderEventAutomatic,
 } = require("./server/controller/eventsController");
-const { sendEmail } = require("./server/useful/sendpulse");
 const {
   flashcard_reviewCard,
   flashcard_createNew,
@@ -122,12 +121,24 @@ app.post(`${mainroute}/studentlogin/`, student_login);
 app.get(`${mainroute}/students`, loggedInADM, students_getAll);
 // Ver todos os alunos
 
+// Score mensal dos alunos
 app.get(`${mainroute}/scoresranking`, loggedIn, students_getAllScores);
-app.get(
-  `${mainroute}/scorestotalranking`,
-  loggedIn,
-  students_getTotalAllScores
-);
+// Score mensal dos alunos
+
+// Score total dos alunos
+app.get(`${mainroute}/scorestotalranking`, loggedIn, students_getTotalAllScores);
+// Score total dos alunos
+
+
+
+
+
+
+
+
+
+
+
 app.post(`${mainroute}/newitemhistory`, student_newRankingItem);
 app.get(`${mainroute}/newitemhistory`, student_getallRankingItem);
 
