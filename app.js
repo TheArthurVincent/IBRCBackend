@@ -12,11 +12,9 @@ const {
   student_scoreUpdate,
   student_seeScore,
   student_resetMonth,
-  students_getAllScores,
   student_getScore,
   students_getOneFullName,
   student_editPersonalPassword,
-  students_getTotalAllScores,
   student_newRankingItem,
   student_getallRankingItem,
 } = require("./server/controller/studentsController");
@@ -98,6 +96,8 @@ const { student_login } = require("./server/controller/studentsController/login/
 const { students_getAll } = require("./server/controller/studentsController/getAllStudents/getAllStudents");
 const { loggedIn, loggedInADM } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
 const { students_getOne } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
+const { students_getAllScores } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
+const { students_getTotalAllScores } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
 
 database();
 app.use(express.json());
