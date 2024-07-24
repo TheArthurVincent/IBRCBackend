@@ -5,8 +5,6 @@ const PORT = 3502;
 const cors = require("cors");
 
 const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne } = require("./server/controller/blogPostsController");
-const { tutoring_postOne, tutoring_getAllFromParticularStudent, tutoring_getAllFromParticularStudentInAParticularMonth, tutoring_getListOfAParticularMonthOfAStudent, tutoring_getNext, tutoring_getAll, tutoring_deleteOne } = require("./server/controller/tutoringController");
-const { nextTutoring_editNext, nextTutoring_seeAllTutorings, nextLiveClass_postNext, nextLiveClass_getNext } = require("./server/controller/nextEventsController");
 const { groupClasses_getOne, groupClasses_postOneClass, groupClasses_editOneClass, groupClasses_getClassesFromOneModule, groupClasses_deleteOneClass, groupClasses_getAllObjects } = require("./server/controller/groupClassesController");
 const { material_postNew, material_deleteOne, material_editOne, material_getAll, material_getOne } = require("./server/controller/materialController");
 const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneStatus, events_deleteOne, events_seeAllTutoringsFromOneStudent, events_editOneTutoring, event_NewTutoring, event_DeleteTutoring, events_seeNext, event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
@@ -35,6 +33,10 @@ const { student_deleteOne } = require("./server/controller/studentsController/de
 const { student_editPermissions } = require("./server/controller/studentsController/editPermissions/editPermissions");
 const { homework_getAll } = require("./server/controller/homeworkController/getAllHomework/getAllHomework");
 const { homework_done } = require("./server/controller/homeworkController/homeworkDone/homeworkDone");
+const { tutoring_postOne } = require("./server/controller/tutoringController/postOneTutoring/postOneTutoring");
+const { tutoring_deleteOne } = require("./server/controller/tutoringController/deleteOneTutoring/deleteOneTutoring");
+const { tutoring_getAll } = require("./server/controller/tutoringController/getAllTutorings/getAllTutorings");
+const { tutoring_getAllFromParticularStudent } = require("./server/controller/tutoringController/getAllFromParticularStudent/getAllFromParticularStudent");
 
 database();
 
@@ -45,8 +47,8 @@ const mainroute = "/api/v1";
 app.use(cors({ origin: "*" }));
 
 
-// ** STUDENTS **
-// ** STUDENTS **
+// START - ** STUDENTS **
+// START - ** STUDENTS **
 // Cadastro de um novo aluno
 app.post(`${mainroute}/signupstudent`, student_signUp);
 // Cadastro de um novo aluno
@@ -118,11 +120,11 @@ app.delete(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_deleteOne
 //Editar permissões
 app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
 //Editar permissões
-// ** STUDENTS **
-// ** STUDENTS **
+// END - ** STUDENTS **
+// END - ** STUDENTS **
 
-// * HW *
-// * HW *
+// START - * HW *
+// START - * HW *
 // Ver todos os homeworks
 app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
 // Ver todos os homeworks
@@ -130,26 +132,30 @@ app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
 // Marcar HW feito
 app.put(`${mainroute}/homework/:id`, loggedIn, loggedInADM, homework_done);
 // Marcar HW feito
-// * HW *
-// * HW *
+// END - * HW *
+// END - * HW *
 
 
-// ** TUTORING - Aulas Particulares **
-// ** TUTORING - Aulas Particulares **
-app.get(`${mainroute}/tutoring`, loggedIn, tutoring_getAll);
-
-app.get(`${mainroute}/tutoring/:studentID`, loggedIn, tutoring_getAllFromParticularStudent);
-
-app.get(`${mainroute}/tutoringclassesofthemonth/`, loggedIn, tutoring_getAllFromParticularStudentInAParticularMonth);
-
-app.get(`${mainroute}/tutoringmonthyear/:studentID`, loggedIn, tutoring_getListOfAParticularMonthOfAStudent);
-
-app.delete(`${mainroute}/tutoring/:id`, loggedIn, loggedInADM, tutoring_deleteOne);
-
+// START - ** TUTORING - Aulas Particulares **
+// START - ** TUTORING - Aulas Particulares **
+// Postar uma aula particular
 app.post(`${mainroute}/tutoring`, loggedIn, loggedInADM, tutoring_postOne);
+// Postar uma aula particular
 
-// ** TUTORING - Aulas Particulares **
-// ** TUTORING - Aulas Particulares **
+// Deletar uma aula particular
+app.delete(`${mainroute}/tutoring/:id`, loggedIn, loggedInADM, tutoring_deleteOne);
+// Deletar uma aula particular
+
+// Ver todas as  aulas particulares
+app.get(`${mainroute}/tutoring`, loggedIn, tutoring_getAll);
+// Ver todas as  aulas particulares
+
+// Ver todas as  aulas particulares de um aluno
+app.get(`${mainroute}/tutoring/:studentID`, loggedIn, tutoring_getAllFromParticularStudent);
+// Ver todas as  aulas particulares de um aluno
+
+// ** END - TUTORING - Aulas Particulares **
+// ** END - TUTORING - Aulas Particulares **
 
 
 // ** COURSES **
@@ -175,7 +181,6 @@ app.put(`${mainroute}/tutoringevent`, loggedIn, loggedInADM, events_editOneTutor
 app.post(`${mainroute}/courseclasses`, loggedIn, loggedInADM, courseClasses_postMultipleClasses);
 app.post(`${mainroute}/course`, loggedIn, loggedInADM, courseClasses_postNewCourse);
 app.post(`${mainroute}/module`, loggedIn, loggedInADM, courseClasses_postNewModule);
-
 app.get(`${mainroute}/courses/:studentId`, loggedIn, courseClasses_getAll);
 app.get(`${mainroute}/course/:id`, loggedIn, courseClasses_getOne);
 
@@ -186,10 +191,6 @@ app.get(`${mainroute}/groupclass/`, loggedIn, loggedInADM, groupClasses_getClass
 app.get(`${mainroute}/groupclass/:id`, loggedIn, loggedInADM, groupClasses_getOne);
 app.delete(`${mainroute}/groupclass/:id`, loggedIn, loggedInADM, groupClasses_deleteOneClass);
 
-// ** NEXT CLASSES **
-app.get(`${mainroute}/nexttutoring`, loggedIn, nextTutoring_seeAllTutorings);
-app.post(`${mainroute}/nexttutoring`, loggedIn, loggedInADM, nextTutoring_editNext);
-app.get(`${mainroute}/nexttutoring/:id`, loggedIn, tutoring_getNext);
 
 // **Material**
 app.post(`${mainroute}/material`, loggedIn, loggedInADM, material_postNew);
@@ -207,22 +208,13 @@ app.delete(`${mainroute}/blogposts/:id`, loggedIn, loggedInADM, blogPosts_delete
 
 // Flashcards
 app.post(`${mainroute}/flashcard/:id`, loggedIn, flashcard_createNew);
-
 app.get(`${mainroute}/flashcardfindone/:id`, loggedIn, flashcard_getOne);
 app.get(`${mainroute}/cards/:id`, loggedIn, allCardsList);
-
 app.get(`${mainroute}/flashcards/:id`, loggedIn, reviewList);
-
 app.put(`${mainroute}/reviewflashcard/:id`, loggedIn, flashcard_reviewCard);
 app.put(`${mainroute}/flashcard/:id`, loggedIn, flashcard_updateOne);
 app.delete(`${mainroute}/flashcard/:id`, loggedIn, flashcard_deleteCard);
-
-// Live Classes
-app.post(`${mainroute}/liveclass`, loggedIn, nextLiveClass_postNext);
-app.get(`${mainroute}/liveclasses`, loggedIn, nextLiveClass_getNext);
 app.get(`${mainroute}/sendnotificationemail`, loggedIn, event_reminderEventAutomatic);
 
 // ** App rodando **
-app.listen(PORT, () => {
-  console.log(`Servidor está ouvindo na porta ${PORT}`);
-});
+app.listen(PORT, () => { console.log(`Servidor está ouvindo na porta ${PORT}`); });
