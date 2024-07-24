@@ -332,47 +332,7 @@ const student_scoreUpdate = async (req, res) => {
   }
 };
 
-const student_resetMonth = async (req, res) => {
-  try {
-    const students = await Student_Model.find();
-    const master = await Student_Model.findById("651311fac3d58753aa9281c5");
-
-    students.map((student) => {
-      student.monthlyScore = 0;
-      student.totalScore < 0 ? (student.totalScore = 0) : null;
-      student.save();
-    });
-
-    master.totalScore = 2000000;
-    master.save();
-    res.status(200).json({ status: "success" });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: error, e: "Ocorreu um erro ao atualizar a pontuação" });
-  }
-};
-
-const student_newRankingItem = async (req, res) => {
-  const { scoreMonth } = req.body;
-  try {
-    if (scoreMonth) {
-      const score = new HistoryRanking_Model({ score: scoreMonth });
-      score.save();
-      res.status(200).json({ score, message: "Sucesso" });
-    } else {
-      res.status(500).json({ error: error, e: "Ocorreu um erro " });
-      throw new Error();
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error, e: "Ocorreu um erro " });
-  }
-};
-
 module.exports = {
-  student_newRankingItem,
   //C
   student_postOne,
   //R
@@ -380,7 +340,6 @@ module.exports = {
   student_scoreUpdate,
   student_seeScore,
   student_getScore,
-  student_resetMonth,
   //U
   student_editGeneralData,
   student_editPassword,
