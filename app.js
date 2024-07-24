@@ -12,31 +12,10 @@ const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcar
 const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule } = require("./server/controller/coursesController");
 
 ///
-const { student_signUp } = require("./server/controller/studentsController/signUp/signUp");
-const { student_login } = require("./server/controller/studentsController/login/login");
-const { students_getAll } = require("./server/controller/studentsController/getAllStudents/getAllStudents");
-const { loggedIn, loggedInADM, SUPREME } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
-const { students_getOne } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
-const { students_getAllScores } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
-const { students_getTotalAllScores } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
-const { student_getAllRankingItems } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
-const { student_newRankingItem } = require("./server/controller/studentsController/Ranking/newRankingItem/newRankingItem");
-const { student_resetMonth } = require("./server/controller/studentsController/Ranking/resetMonth/resetMonth");
-const { student_scoreUpdate } = require("./server/controller/studentsController/Ranking/scoreUpdate/scoreUpdate");
-const { student_getScore } = require("./server/controller/studentsController/Ranking/getScore/getScore");
-const { students_getOneFullName } = require("./server/controller/studentsController/getOneFullName/getOneFullName");
-const { student_postOne } = require("./server/controller/studentsController/postOneStudent/postOneStudent");
-const { student_editGeneralData } = require("./server/controller/studentsController/editGeneralData/editGeneralData");
-const { student_editPasswordAdm } = require("./server/controller/studentsController/editPassword/editPasswordAdm/editPasswordAdm");
-const { student_editPersonalPassword } = require("./server/controller/studentsController/editPassword/editPersonalPassword/editPersonalPassword");
-const { student_deleteOne } = require("./server/controller/studentsController/deleteOne/deleteOne");
-const { student_editPermissions } = require("./server/controller/studentsController/editPermissions/editPermissions");
-const { homework_getAll } = require("./server/controller/homeworkController/getAllHomework/getAllHomework");
-const { homework_done } = require("./server/controller/homeworkController/homeworkDone/homeworkDone");
-const { tutoring_postOne } = require("./server/controller/tutoringController/postOneTutoring/postOneTutoring");
-const { tutoring_deleteOne } = require("./server/controller/tutoringController/deleteOneTutoring/deleteOneTutoring");
-const { tutoring_getAll } = require("./server/controller/tutoringController/getAllTutorings/getAllTutorings");
-const { tutoring_getAllFromParticularStudent } = require("./server/controller/tutoringController/getAllFromParticularStudent/getAllFromParticularStudent");
+const { loggedIn, loggedInADM } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
+const { homeworkRoutes } = require("./server/routes/homeworkRoutes/homeworkRoutes");
+const { studentsRoutes } = require("./server/routes/studentsRoutes/studentsRoutes");
+const { tutoringRoutes } = require("./server/routes/tutoringRoutes/tutoringRoutes");
 
 database();
 
@@ -47,65 +26,6 @@ const mainroute = "/api/v1";
 app.use(cors({ origin: "*" }));
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Definindo as informações das rotas para cada categoria
-const studentsRoutes = [
-  { method: 'post', path: '/signupstudent', middlewares: [], handler: student_signUp },
-  { method: 'post', path: '/studentlogin', middlewares: [], handler: student_login },
-  { method: 'get', path: '/students', middlewares: [loggedIn, loggedInADM], handler: students_getAll },
-  { method: 'get', path: '/scoresranking', middlewares: [loggedIn], handler: students_getAllScores },
-  { method: 'get', path: '/scorestotalranking', middlewares: [loggedIn], handler: students_getTotalAllScores },
-  { method: 'get', path: '/allitemhistory', middlewares: [loggedIn, loggedInADM], handler: student_getAllRankingItems },
-  { method: 'post', path: '/newitemhistory', middlewares: [loggedIn, loggedInADM], handler: student_newRankingItem },
-  { method: 'put', path: '/resetmonthscoresecurethepoints', middlewares: [loggedIn, loggedInADM, SUPREME], handler: student_resetMonth },
-  { method: 'put', path: '/score/:id', middlewares: [loggedIn, loggedInADM, SUPREME], handler: student_scoreUpdate },
-  { method: 'get', path: '/score/:id', middlewares: [loggedIn], handler: student_getScore },
-  { method: 'get', path: '/studentname/:id', middlewares: [loggedIn], handler: students_getOneFullName },
-  { method: 'get', path: '/student/:id', middlewares: [loggedIn], handler: students_getOne },
-  { method: 'post', path: '/students', middlewares: [loggedIn, loggedInADM], handler: student_postOne },
-  { method: 'put', path: '/students/:id', middlewares: [loggedIn, loggedInADM], handler: student_editGeneralData },
-  { method: 'put', path: '/studentpassword/:id', middlewares: [loggedIn, loggedInADM], handler: student_editPasswordAdm },
-  { method: 'put', path: '/studentperspassword/:id', middlewares: [loggedIn], handler: student_editPersonalPassword },
-  { method: 'delete', path: '/students/:id', middlewares: [loggedIn, loggedInADM], handler: student_deleteOne },
-  { method: 'put', path: '/studentpermissions/:id', middlewares: [loggedIn, loggedInADM], handler: student_editPermissions }
-];
-
-const homeworkRoutes = [
-  { method: 'get', path: '/homework/:id', middlewares: [loggedIn], handler: homework_getAll },
-  { method: 'put', path: '/homework/:id', middlewares: [loggedIn, loggedInADM], handler: homework_done }
-];
-
-const tutoringRoutes = [
-  { method: 'post', path: '/tutoring', middlewares: [loggedIn, loggedInADM], handler: tutoring_postOne },
-  { method: 'delete', path: '/tutoring/:id', middlewares: [loggedIn, loggedInADM], handler: tutoring_deleteOne },
-  { method: 'get', path: '/tutoring', middlewares: [loggedIn], handler: tutoring_getAll },
-  { method: 'get', path: '/tutoring/:studentID', middlewares: [loggedIn], handler: tutoring_getAllFromParticularStudent }
-];
-
 const allRoutes = [
   ...studentsRoutes,
   ...homeworkRoutes,
@@ -115,33 +35,33 @@ const allRoutes = [
 // Funções para configurar rotas com Express
 function configureGetRoutes(app, mainroute, routes) {
   routes.forEach(route => {
-      if (route.method === 'get') {
-          app.get(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
-      }
+    if (route.method === 'get') {
+      app.get(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+    }
   });
 }
 
 function configurePostRoutes(app, mainroute, routes) {
   routes.forEach(route => {
-      if (route.method === 'post') {
-          app.post(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
-      }
+    if (route.method === 'post') {
+      app.post(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+    }
   });
 }
 
 function configurePutRoutes(app, mainroute, routes) {
   routes.forEach(route => {
-      if (route.method === 'put') {
-          app.put(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
-      }
+    if (route.method === 'put') {
+      app.put(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+    }
   });
 }
 
 function configureDeleteRoutes(app, mainroute, routes) {
   routes.forEach(route => {
-      if (route.method === 'delete') {
-          app.delete(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
-      }
+    if (route.method === 'delete') {
+      app.delete(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+    }
   });
 }
 
