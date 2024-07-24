@@ -46,6 +46,7 @@ app.use(cors({ origin: "*" }));
 
 
 // ** STUDENTS **
+// ** STUDENTS **
 // Cadastro de um novo aluno
 app.post(`${mainroute}/signupstudent`, student_signUp);
 // Cadastro de um novo aluno
@@ -117,8 +118,10 @@ app.delete(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_deleteOne
 //Editar permissões
 app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
 //Editar permissões
+// ** STUDENTS **
+// ** STUDENTS **
 
-
+// * HW *
 // * HW *
 // Ver todos os homeworks
 app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
@@ -127,27 +130,31 @@ app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
 // Marcar HW feito
 app.put(`${mainroute}/homework/:id`, loggedIn, loggedInADM, homework_done);
 // Marcar HW feito
+// * HW *
+// * HW *
 
 
+// ** TUTORING - Aulas Particulares **
+// ** TUTORING - Aulas Particulares **
+app.get(`${mainroute}/tutoring`, loggedIn, tutoring_getAll);
 
+app.get(`${mainroute}/tutoring/:studentID`, loggedIn, tutoring_getAllFromParticularStudent);
 
+app.get(`${mainroute}/tutoringclassesofthemonth/`, loggedIn, tutoring_getAllFromParticularStudentInAParticularMonth);
 
+app.get(`${mainroute}/tutoringmonthyear/:studentID`, loggedIn, tutoring_getListOfAParticularMonthOfAStudent);
 
+app.delete(`${mainroute}/tutoring/:id`, loggedIn, loggedInADM, tutoring_deleteOne);
 
+app.post(`${mainroute}/tutoring`, loggedIn, loggedInADM, tutoring_postOne);
 
+// ** TUTORING - Aulas Particulares **
+// ** TUTORING - Aulas Particulares **
 
 
 // ** COURSES **
 app.get(`${mainroute}/allgroupclasses`, loggedIn, groupClasses_getAllObjects);
 
-// ** TUTORING - Aulas Particulares **
-app.get(`${mainroute}/tutoring`, loggedIn, tutoring_getAll);
-app.get(`${mainroute}/tutoring/:studentID`, loggedIn, tutoring_getAllFromParticularStudent);
-app.get(`${mainroute}/tutoringclassesofthemonth/`, loggedIn, tutoring_getAllFromParticularStudentInAParticularMonth);
-app.get(`${mainroute}/tutoringmonthyear/:studentID`, loggedIn, tutoring_getListOfAParticularMonthOfAStudent);
-
-app.delete(`${mainroute}/tutoring/:id`, loggedIn, loggedInADM, tutoring_deleteOne);
-app.post(`${mainroute}/tutoring`, loggedIn, loggedInADM, tutoring_postOne);
 
 // * events *
 app.get(`${mainroute}/eventsgeneral/:id`, loggedIn, events_seeAll);
