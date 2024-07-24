@@ -120,6 +120,7 @@ app.delete(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_deleteOne
 //Editar permissões
 app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
 //Editar permissões
+
 // END - ** STUDENTS **
 // END - ** STUDENTS **
 
