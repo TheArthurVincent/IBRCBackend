@@ -4,7 +4,6 @@ const database = require("./db/conn");
 const PORT = 3502;
 const cors = require("cors");
 
-const { student_deleteOne, student_editPassword, student_editPermissions, student_editPersonalPassword } = require("./server/controller/studentsController");
 const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne } = require("./server/controller/blogPostsController");
 const { tutoring_postOne, tutoring_getAllFromParticularStudent, tutoring_getAllFromParticularStudentInAParticularMonth, tutoring_getListOfAParticularMonthOfAStudent, tutoring_getNext, tutoring_getAll, tutoring_deleteOne } = require("./server/controller/tutoringController");
 const { nextTutoring_editNext, nextTutoring_seeAllTutorings, nextLiveClass_postNext, nextLiveClass_getNext } = require("./server/controller/nextEventsController");
@@ -31,12 +30,19 @@ const { student_getScore } = require("./server/controller/studentsController/Ran
 const { students_getOneFullName } = require("./server/controller/studentsController/getOneFullName/getOneFullName");
 const { student_postOne } = require("./server/controller/studentsController/postOneStudent/postOneStudent");
 const { student_editGeneralData } = require("./server/controller/studentsController/editGeneralData/editGeneralData");
+const { student_editPasswordAdm } = require("./server/controller/studentsController/editPassword/editPasswordAdm/editPasswordAdm");
+const { student_editPersonalPassword } = require("./server/controller/studentsController/editPassword/editPersonalPassword/editPersonalPassword");
+const { student_deleteOne } = require("./server/controller/studentsController/deleteOne/deleteOne");
+const { student_editPermissions } = require("./server/controller/studentsController/editPermissions/editPermissions");
 
 database();
+
 app.use(express.json());
+
 const mainroute = "/api/v1";
 
 app.use(cors({ origin: "*" }));
+
 
 // ** STUDENTS **
 // Cadastro de um novo aluno
@@ -95,10 +101,21 @@ app.post(`${mainroute}/students`, loggedIn, loggedInADM, student_postOne);
 app.put(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_editGeneralData);
 // Editar dados gerais de um aluno como administrador
 
-app.put(`${mainroute}/studentpassword/:id`, loggedIn, loggedInADM, student_editPassword);
+// Editar senha como administrador
+app.put(`${mainroute}/studentpassword/:id`, loggedIn, loggedInADM, student_editPasswordAdm);
+// Editar senha como administrador
+
+// Editar senha pessoal
 app.put(`${mainroute}/studentperspassword/:id`, loggedIn, student_editPersonalPassword);
-app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
+// Editar senha pessoal
+
+// Apagar um aluno
 app.delete(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_deleteOne);
+// Apagar um aluno
+
+//Editar permissões
+app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
+//Editar permissões
 
 
 
