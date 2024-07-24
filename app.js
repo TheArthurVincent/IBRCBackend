@@ -3,28 +3,33 @@ const app = express();
 const database = require("./db/conn");
 const PORT = 3502;
 const cors = require("cors");
-const { student_postOne, student_deleteOne, student_editGeneralData, student_editPassword, student_editPermissions, student_scoreUpdate, student_seeScore, student_getScore, students_getOneFullName, student_editPersonalPassword, } = require("./server/controller/studentsController");
-const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne, } = require("./server/controller/blogPostsController");
-const { tutoring_postOne, tutoring_getAllFromParticularStudent, tutoring_getAllFromParticularStudentInAParticularMonth, tutoring_getListOfAParticularMonthOfAStudent, tutoring_getNext, tutoring_getAll, tutoring_deleteOne, } = require("./server/controller/tutoringController");
-const { nextTutoring_editNext, nextTutoring_seeAllTutorings, nextLiveClass_postNext, nextLiveClass_getNext, } = require("./server/controller/nextEventsController");
-const { groupClasses_getOne, groupClasses_postOneClass, groupClasses_editOneClass, groupClasses_getClassesFromOneModule, groupClasses_deleteOneClass, groupClasses_getAllObjects, } = require("./server/controller/groupClassesController");
-const { material_postNew, material_deleteOne, material_editOne, material_getAll, material_getOne, } = require("./server/controller/materialController");
-const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneStatus, events_deleteOne, events_seeAllTutoringsFromOneStudent, events_editOneTutoring, event_NewTutoring, event_DeleteTutoring, events_seeNext, event_reminderEvent, event_reminderEventAutomatic, } = require("./server/controller/eventsController");
-const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, reviewList, flashcard_getOne, allCardsList, } = require("./server/controller/flashCardsController");
-const { homework_getAll, homework_done, } = require("./server/controller/homeworkController");
-const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule, } = require("./server/controller/coursesController");
+
+const { student_deleteOne, student_editGeneralData, student_editPassword, student_editPermissions, student_editPersonalPassword } = require("./server/controller/studentsController");
+const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne } = require("./server/controller/blogPostsController");
+const { tutoring_postOne, tutoring_getAllFromParticularStudent, tutoring_getAllFromParticularStudentInAParticularMonth, tutoring_getListOfAParticularMonthOfAStudent, tutoring_getNext, tutoring_getAll, tutoring_deleteOne } = require("./server/controller/tutoringController");
+const { nextTutoring_editNext, nextTutoring_seeAllTutorings, nextLiveClass_postNext, nextLiveClass_getNext } = require("./server/controller/nextEventsController");
+const { groupClasses_getOne, groupClasses_postOneClass, groupClasses_editOneClass, groupClasses_getClassesFromOneModule, groupClasses_deleteOneClass, groupClasses_getAllObjects } = require("./server/controller/groupClassesController");
+const { material_postNew, material_deleteOne, material_editOne, material_getAll, material_getOne } = require("./server/controller/materialController");
+const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneStatus, events_deleteOne, events_seeAllTutoringsFromOneStudent, events_editOneTutoring, event_NewTutoring, event_DeleteTutoring, events_seeNext, event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
+const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, reviewList, flashcard_getOne, allCardsList } = require("./server/controller/flashCardsController");
+const { homework_getAll, homework_done } = require("./server/controller/homeworkController");
+const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule } = require("./server/controller/coursesController");
 
 ///
-const { student_signUp, } = require("./server/controller/studentsController/signUp/signUp");
-const { student_login, } = require("./server/controller/studentsController/login/login");
-const { students_getAll, } = require("./server/controller/studentsController/getAllStudents/getAllStudents");
-const { loggedIn, loggedInADM, SUPREME, } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
-const { students_getOne, } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
-const { students_getAllScores, } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
-const { students_getTotalAllScores, } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
-const { student_getAllRankingItems, } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
-const { student_newRankingItem, } = require("./server/controller/studentsController/Ranking/newRankingItem/newRankingItem");
+const { student_signUp } = require("./server/controller/studentsController/signUp/signUp");
+const { student_login } = require("./server/controller/studentsController/login/login");
+const { students_getAll } = require("./server/controller/studentsController/getAllStudents/getAllStudents");
+const { loggedIn, loggedInADM, SUPREME } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
+const { students_getOne } = require("./server/controller/studentsController/getOneStudent/getOneStudent");
+const { students_getAllScores } = require("./server/controller/studentsController/Ranking/getAllScores/getAllScores");
+const { students_getTotalAllScores } = require("./server/controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
+const { student_getAllRankingItems } = require("./server/controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
+const { student_newRankingItem } = require("./server/controller/studentsController/Ranking/newRankingItem/newRankingItem");
 const { student_resetMonth } = require("./server/controller/studentsController/Ranking/resetMonth/resetMonth");
+const { student_scoreUpdate } = require("./server/controller/studentsController/Ranking/scoreUpdate/scoreUpdate");
+const { student_getScore } = require("./server/controller/studentsController/Ranking/getScore/getScore");
+const { students_getOneFullName } = require("./server/controller/studentsController/getOneFullName/getOneFullName");
+const { student_postOne } = require("./server/controller/studentsController/postOneStudent/postOneStudent");
 
 database();
 app.use(express.json());
@@ -62,23 +67,57 @@ app.post(`${mainroute}/newitemhistory`, loggedIn, loggedInADM, student_newRankin
 // Novo item de histórico dos rankings
 
 // Resetar mês
-app.put(`${mainroute}/resetmonthscoresecurethepoints`, loggedIn, SUPREME, student_resetMonth);
+app.put(`${mainroute}/resetmonthscoresecurethepoints`, loggedIn, loggedInADM, SUPREME, student_resetMonth);
 // Resetar mês
 
+// Atualizar score
+app.put(`${mainroute}/score/:id`, loggedIn, loggedInADM, SUPREME, student_scoreUpdate);
+// Atualizar score
 
+// Ver score
 app.get(`${mainroute}/score/:id`, loggedIn, student_getScore);
-app.get(`${mainroute}/score/:id`, loggedIn, student_seeScore);
-app.put(`${mainroute}/score/:id`, student_scoreUpdate);
-app.get(`${mainroute}/student/:id`, loggedIn, students_getOne);
+// Ver score
+
+// Ver nome completo do aluno
 app.get(`${mainroute}/studentname/:id`, loggedIn, students_getOneFullName);
+// Ver nome completo do aluno
+
+// Ver um aluno
+app.get(`${mainroute}/student/:id`, loggedIn, students_getOne);
+// Ver um aluno
+
+// Postar um aluno como administrador
 app.post(`${mainroute}/students`, loggedIn, loggedInADM, student_postOne);
+// Postar um aluno como administrador
+
 
 app.put(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_editGeneralData);
+
+
 app.put(`${mainroute}/studentpassword/:id`, loggedIn, loggedInADM, student_editPassword);
 app.put(`${mainroute}/studentperspassword/:id`, loggedIn, student_editPersonalPassword);
 app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
-
 app.delete(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_deleteOne);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ** COURSES **
 app.get(`${mainroute}/allgroupclasses`, loggedIn, groupClasses_getAllObjects);
