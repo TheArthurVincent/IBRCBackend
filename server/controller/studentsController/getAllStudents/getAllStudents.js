@@ -1,6 +1,13 @@
 // Import necessary models and libraries
 const { Student_Model } = require("../../../models/Students");
 
+/**
+ * Controller function to retrieve all students from the database.
+ * It retrieves student data, formats it, and sorts alphabetically by name.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 const students_getAll = async (req, res) => {
   try {
     // Retrieve all students from the database
@@ -58,4 +65,5 @@ const students_getAll = async (req, res) => {
   }
 };
 
+// Export the controller function for use in routes
 module.exports = { students_getAll };

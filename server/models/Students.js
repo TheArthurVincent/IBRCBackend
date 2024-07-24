@@ -7,6 +7,7 @@ const studentSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    supreme: { type: Boolean, required: false, unique: true, default: false },
     email: {
       type: String,
       required: true,
