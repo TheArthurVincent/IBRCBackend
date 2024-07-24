@@ -11,7 +11,6 @@ const { groupClasses_getOne, groupClasses_postOneClass, groupClasses_editOneClas
 const { material_postNew, material_deleteOne, material_editOne, material_getAll, material_getOne } = require("./server/controller/materialController");
 const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneStatus, events_deleteOne, events_seeAllTutoringsFromOneStudent, events_editOneTutoring, event_NewTutoring, event_DeleteTutoring, events_seeNext, event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
 const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, reviewList, flashcard_getOne, allCardsList } = require("./server/controller/flashCardsController");
-const { homework_getAll, homework_done } = require("./server/controller/homeworkController");
 const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule } = require("./server/controller/coursesController");
 
 ///
@@ -34,9 +33,11 @@ const { student_editPasswordAdm } = require("./server/controller/studentsControl
 const { student_editPersonalPassword } = require("./server/controller/studentsController/editPassword/editPersonalPassword/editPersonalPassword");
 const { student_deleteOne } = require("./server/controller/studentsController/deleteOne/deleteOne");
 const { student_editPermissions } = require("./server/controller/studentsController/editPermissions/editPermissions");
+const { homework_getAll } = require("./server/controller/homeworkController/getAllHomework/getAllHomework");
+const { homework_done } = require("./server/controller/homeworkController/homeworkDone/homeworkDone");
 
 database();
-   
+
 app.use(express.json());
 
 const mainroute = "/api/v1";
@@ -118,15 +119,14 @@ app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_ed
 //Editar permissões
 
 
+// * HW *
+// Ver todos os homeworks
+app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
+// Ver todos os homeworks
 
-
-
-
-
-
-
-
-
+// Marcar HW feito
+app.put(`${mainroute}/homework/:id`, loggedIn, loggedInADM, homework_done);
+// Marcar HW feito
 
 
 
@@ -163,11 +163,6 @@ app.post(`${mainroute}/eventreminder/:id`, event_reminderEvent);
 app.get(`${mainroute}/event/:id`, events_seeOne);
 app.get(`${mainroute}/tutoringsevents/:studentId`, events_seeAllTutoringsFromOneStudent);
 app.put(`${mainroute}/tutoringevent`, loggedIn, loggedInADM, events_editOneTutoring);
-
-// * Homework *
-app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
-app.put(`${mainroute}/homework/:id`, loggedIn, loggedInADM, homework_done);
-// app.put(`${mainroute}/homeworkallpending`,homework_allpending  );
 
 // * Courses Management *
 app.post(`${mainroute}/courseclasses`, loggedIn, loggedInADM, courseClasses_postMultipleClasses);
