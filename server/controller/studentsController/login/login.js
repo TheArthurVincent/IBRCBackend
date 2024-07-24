@@ -1,9 +1,16 @@
 // Import necessary models and libraries
 const { Student_Model } = require("../../../models/Students");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken"); // Importe jsonwebtoken
+const jwt = require("jsonwebtoken");
 
-
+/**
+ * Controller function to handle student login.
+ * Attempts to authenticate a student based on provided email and password.
+ * If successful, generates a JWT token for session management.
+ *
+ * @param {Object} req - Express request object containing email and password in body
+ * @param {Object} res - Express response object for sending JSON response
+ */
 const student_login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -64,4 +71,5 @@ const student_login = async (req, res) => {
   }
 };
 
+// Export the controller function for use in routes
 module.exports = { student_login };
