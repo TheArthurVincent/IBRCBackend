@@ -36,7 +36,7 @@ const { student_deleteOne } = require("./server/controller/studentsController/de
 const { student_editPermissions } = require("./server/controller/studentsController/editPermissions/editPermissions");
 
 database();
-
+   
 app.use(express.json());
 
 const mainroute = "/api/v1";
