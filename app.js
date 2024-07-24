@@ -47,116 +47,135 @@ const mainroute = "/api/v1";
 app.use(cors({ origin: "*" }));
 
 
-// START - ** STUDENTS **
-// START - ** STUDENTS **
-// Cadastro de um novo aluno
-app.post(`${mainroute}/signupstudent`, student_signUp);
-// Cadastro de um novo aluno
-
-// Login de um  aluno
-app.post(`${mainroute}/studentlogin/`, student_login);
-// Login de um  aluno
-
-// Ver todos os alunos
-app.get(`${mainroute}/students`, loggedIn, loggedInADM, students_getAll);
-// Ver todos os alunos
-
-// Score mensal dos alunos
-app.get(`${mainroute}/scoresranking`, loggedIn, students_getAllScores);
-// Score mensal dos alunos
-
-// Score total dos alunos
-app.get(`${mainroute}/scorestotalranking`, loggedIn, students_getTotalAllScores);
-// Score total dos alunos
-
-// Itens de histórico de vencedores
-app.get(`${mainroute}/allitemhistory`, loggedIn, loggedInADM, student_getAllRankingItems);
-// Itens de histórico de vencedores
-
-// Novo item de histórico dos rankings
-app.post(`${mainroute}/newitemhistory`, loggedIn, loggedInADM, student_newRankingItem);
-// Novo item de histórico dos rankings
-
-// Resetar mês
-app.put(`${mainroute}/resetmonthscoresecurethepoints`, loggedIn, loggedInADM, SUPREME, student_resetMonth);
-// Resetar mês
-
-// Atualizar score
-app.put(`${mainroute}/score/:id`, loggedIn, loggedInADM, SUPREME, student_scoreUpdate);
-// Atualizar score
-
-// Ver score
-app.get(`${mainroute}/score/:id`, loggedIn, student_getScore);
-// Ver score
-
-// Ver nome completo do aluno
-app.get(`${mainroute}/studentname/:id`, loggedIn, students_getOneFullName);
-// Ver nome completo do aluno
-
-// Ver um aluno
-app.get(`${mainroute}/student/:id`, loggedIn, students_getOne);
-// Ver um aluno
-
-// Postar um aluno como administrador
-app.post(`${mainroute}/students`, loggedIn, loggedInADM, student_postOne);
-// Postar um aluno como administrador
-
-// Editar dados gerais de um aluno como administrador
-app.put(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_editGeneralData);
-// Editar dados gerais de um aluno como administrador
-
-// Editar senha como administrador
-app.put(`${mainroute}/studentpassword/:id`, loggedIn, loggedInADM, student_editPasswordAdm);
-// Editar senha como administrador
-
-// Editar senha pessoal
-app.put(`${mainroute}/studentperspassword/:id`, loggedIn, student_editPersonalPassword);
-// Editar senha pessoal
-
-// Apagar um aluno
-app.delete(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_deleteOne);
-// Apagar um aluno
-
-//Editar permissões
-app.put(`${mainroute}/studentpermissions/:id`, loggedIn, loggedInADM, student_editPermissions);
-//Editar permissões
-
-// END - ** STUDENTS **
-// END - ** STUDENTS **
-
-// START - * HW *
-// START - * HW *
-// Ver todos os homeworks
-app.get(`${mainroute}/homework/:id`, loggedIn, homework_getAll);
-// Ver todos os homeworks
-
-// Marcar HW feito
-app.put(`${mainroute}/homework/:id`, loggedIn, loggedInADM, homework_done);
-// Marcar HW feito
-// END - * HW *
-// END - * HW *
 
 
-// START - ** TUTORING - Aulas Particulares **
-// START - ** TUTORING - Aulas Particulares **
-// Postar uma aula particular
-app.post(`${mainroute}/tutoring`, loggedIn, loggedInADM, tutoring_postOne);
-// Postar uma aula particular
 
-// Deletar uma aula particular
-app.delete(`${mainroute}/tutoring/:id`, loggedIn, loggedInADM, tutoring_deleteOne);
-// Deletar uma aula particular
 
-// Ver todas as  aulas particulares
-app.get(`${mainroute}/tutoring`, loggedIn, tutoring_getAll);
-// Ver todas as  aulas particulares
 
-// Ver todas as  aulas particulares de um aluno
-app.get(`${mainroute}/tutoring/:studentID`, loggedIn, tutoring_getAllFromParticularStudent);
-// Ver todas as  aulas particulares de um aluno
 
-// ** END - TUTORING - Aulas Particulares **
-// ** END - TUTORING - Aulas Particulares **
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Definindo as informações das rotas para cada categoria
+const studentsRoutes = [
+  { method: 'post', path: '/signupstudent', middlewares: [], handler: student_signUp },
+  { method: 'post', path: '/studentlogin', middlewares: [], handler: student_login },
+  { method: 'get', path: '/students', middlewares: [loggedIn, loggedInADM], handler: students_getAll },
+  { method: 'get', path: '/scoresranking', middlewares: [loggedIn], handler: students_getAllScores },
+  { method: 'get', path: '/scorestotalranking', middlewares: [loggedIn], handler: students_getTotalAllScores },
+  { method: 'get', path: '/allitemhistory', middlewares: [loggedIn, loggedInADM], handler: student_getAllRankingItems },
+  { method: 'post', path: '/newitemhistory', middlewares: [loggedIn, loggedInADM], handler: student_newRankingItem },
+  { method: 'put', path: '/resetmonthscoresecurethepoints', middlewares: [loggedIn, loggedInADM, SUPREME], handler: student_resetMonth },
+  { method: 'put', path: '/score/:id', middlewares: [loggedIn, loggedInADM, SUPREME], handler: student_scoreUpdate },
+  { method: 'get', path: '/score/:id', middlewares: [loggedIn], handler: student_getScore },
+  { method: 'get', path: '/studentname/:id', middlewares: [loggedIn], handler: students_getOneFullName },
+  { method: 'get', path: '/student/:id', middlewares: [loggedIn], handler: students_getOne },
+  { method: 'post', path: '/students', middlewares: [loggedIn, loggedInADM], handler: student_postOne },
+  { method: 'put', path: '/students/:id', middlewares: [loggedIn, loggedInADM], handler: student_editGeneralData },
+  { method: 'put', path: '/studentpassword/:id', middlewares: [loggedIn, loggedInADM], handler: student_editPasswordAdm },
+  { method: 'put', path: '/studentperspassword/:id', middlewares: [loggedIn], handler: student_editPersonalPassword },
+  { method: 'delete', path: '/students/:id', middlewares: [loggedIn, loggedInADM], handler: student_deleteOne },
+  { method: 'put', path: '/studentpermissions/:id', middlewares: [loggedIn, loggedInADM], handler: student_editPermissions }
+];
+
+const homeworkRoutes = [
+  { method: 'get', path: '/homework/:id', middlewares: [loggedIn], handler: homework_getAll },
+  { method: 'put', path: '/homework/:id', middlewares: [loggedIn, loggedInADM], handler: homework_done }
+];
+
+const tutoringRoutes = [
+  { method: 'post', path: '/tutoring', middlewares: [loggedIn, loggedInADM], handler: tutoring_postOne },
+  { method: 'delete', path: '/tutoring/:id', middlewares: [loggedIn, loggedInADM], handler: tutoring_deleteOne },
+  { method: 'get', path: '/tutoring', middlewares: [loggedIn], handler: tutoring_getAll },
+  { method: 'get', path: '/tutoring/:studentID', middlewares: [loggedIn], handler: tutoring_getAllFromParticularStudent }
+];
+
+const allRoutes = [
+  ...studentsRoutes,
+  ...homeworkRoutes,
+  ...tutoringRoutes
+];
+
+// Funções para configurar rotas com Express
+function configureGetRoutes(app, mainroute, routes) {
+  routes.forEach(route => {
+      if (route.method === 'get') {
+          app.get(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+      }
+  });
+}
+
+function configurePostRoutes(app, mainroute, routes) {
+  routes.forEach(route => {
+      if (route.method === 'post') {
+          app.post(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+      }
+  });
+}
+
+function configurePutRoutes(app, mainroute, routes) {
+  routes.forEach(route => {
+      if (route.method === 'put') {
+          app.put(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+      }
+  });
+}
+
+function configureDeleteRoutes(app, mainroute, routes) {
+  routes.forEach(route => {
+      if (route.method === 'delete') {
+          app.delete(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+      }
+  });
+}
+
+// Configurando todas as rotas
+configurePostRoutes(app, mainroute, allRoutes.filter(route => route.method === 'post'));
+configureGetRoutes(app, mainroute, allRoutes.filter(route => route.method === 'get'));
+configurePutRoutes(app, mainroute, allRoutes.filter(route => route.method === 'put'));
+configureDeleteRoutes(app, mainroute, allRoutes.filter(route => route.method === 'delete'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // ** COURSES **
