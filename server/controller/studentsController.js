@@ -1,70 +1,6 @@
 const { Student_Model } = require("../models/Students");
 const bcrypt = require("bcrypt");
 
-
-const student_editGeneralData = async (req, res) => {
-  const {
-    name,
-    lastname,
-    username,
-    email,
-    fee,
-    address,
-    weeklyClasses,
-    googleDriveLink,
-    picture,
-    phoneNumber,
-  } = req.body;
-
-  const numberFee = parseInt(fee);
-  try {
-    const { id } = req.params;
-    const studentToEdit = await Student_Model.findById(id);
-    if (!studentToEdit) {
-      return res.status(404).json({ message: "Aluno não encontrado" });
-    } else if (!username || !email || !name || !lastname || !phoneNumber) {
-      return res.status(400).json({ message: "Campos obrigatórios faltando" });
-    } else if (
-      // studentToEdit.ankiEmail === ankiEmail &&
-      // studentToEdit.ankiPassword === ankiPassword &&
-      studentToEdit.name === name &&
-      studentToEdit.lastname === lastname &&
-      studentToEdit.username === username &&
-      studentToEdit.email === email &&
-      studentToEdit.picture === picture &&
-      studentToEdit.weeklyClasses === weeklyClasses &&
-      studentToEdit.address === address &&
-      studentToEdit.googleDriveLink === googleDriveLink &&
-      studentToEdit.fee === numberFee &&
-      studentToEdit.phoneNumber === phoneNumber
-    ) {
-      res.json({
-        message: `Nenhuma edição feita no usuário ${studentToEdit.username}`,
-      });
-    } else {
-      studentToEdit.name = name;
-      studentToEdit.lastname = lastname;
-      studentToEdit.username = username;
-      studentToEdit.email = email;
-      studentToEdit.googleDriveLink = googleDriveLink;
-      studentToEdit.weeklyClasses = weeklyClasses;
-      studentToEdit.picture = picture;
-      studentToEdit.address = address;
-      studentToEdit.fee = numberFee;
-      studentToEdit.phoneNumber = phoneNumber;
-
-      await studentToEdit.save();
-
-      res.status(200).json({
-        message: "Aluno editado com sucesso",
-        updatedUser: studentToEdit,
-      });
-    }
-  } catch (error) {
-    res.status(500).send("Erro ao editar aluno");
-  }
-};
-
 const student_editPersonalPassword = async (req, res) => {
   const { newPassword } = req.body;
   const hashedPassword = bcrypt.hashSync(newPassword, 10);
@@ -186,10 +122,8 @@ const student_deleteOne = async (req, res) => {
 };
 
 module.exports = {
-  student_editGeneralData,
   student_editPassword,
   student_editPersonalPassword,
   student_editPermissions,
-  //D
   student_deleteOne,
 };

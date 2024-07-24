@@ -4,7 +4,7 @@ const database = require("./db/conn");
 const PORT = 3502;
 const cors = require("cors");
 
-const { student_deleteOne, student_editGeneralData, student_editPassword, student_editPermissions, student_editPersonalPassword } = require("./server/controller/studentsController");
+const { student_deleteOne, student_editPassword, student_editPermissions, student_editPersonalPassword } = require("./server/controller/studentsController");
 const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne } = require("./server/controller/blogPostsController");
 const { tutoring_postOne, tutoring_getAllFromParticularStudent, tutoring_getAllFromParticularStudentInAParticularMonth, tutoring_getListOfAParticularMonthOfAStudent, tutoring_getNext, tutoring_getAll, tutoring_deleteOne } = require("./server/controller/tutoringController");
 const { nextTutoring_editNext, nextTutoring_seeAllTutorings, nextLiveClass_postNext, nextLiveClass_getNext } = require("./server/controller/nextEventsController");
@@ -30,6 +30,7 @@ const { student_scoreUpdate } = require("./server/controller/studentsController/
 const { student_getScore } = require("./server/controller/studentsController/Ranking/getScore/getScore");
 const { students_getOneFullName } = require("./server/controller/studentsController/getOneFullName/getOneFullName");
 const { student_postOne } = require("./server/controller/studentsController/postOneStudent/postOneStudent");
+const { student_editGeneralData } = require("./server/controller/studentsController/editGeneralData/editGeneralData");
 
 database();
 app.use(express.json());
@@ -90,9 +91,9 @@ app.get(`${mainroute}/student/:id`, loggedIn, students_getOne);
 app.post(`${mainroute}/students`, loggedIn, loggedInADM, student_postOne);
 // Postar um aluno como administrador
 
-
+// Editar dados gerais de um aluno como administrador
 app.put(`${mainroute}/students/:id`, loggedIn, loggedInADM, student_editGeneralData);
-
+// Editar dados gerais de um aluno como administrador
 
 app.put(`${mainroute}/studentpassword/:id`, loggedIn, loggedInADM, student_editPassword);
 app.put(`${mainroute}/studentperspassword/:id`, loggedIn, student_editPersonalPassword);
