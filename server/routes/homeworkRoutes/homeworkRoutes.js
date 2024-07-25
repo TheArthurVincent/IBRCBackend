@@ -1,13 +1,6 @@
-const {
-  homework_getAll,
-} = require("../../controller/homeworkController/getAllHomework/getAllHomework");
-const {
-  homework_done,
-} = require("../../controller/homeworkController/homeworkDone/homeworkDone");
-const {
-  loggedIn,
-  loggedInADM,
-} = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
+const { homework_getAll, } = require("../../controller/homeworkController/getAllHomework/getAllHomework");
+const { homework_done, } = require("../../controller/homeworkController/homeworkDone/homeworkDone");
+const { loggedIn, loggedInADM, } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
 
 const homeworkRoutes = [
   {

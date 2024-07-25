@@ -1,64 +1,23 @@
-const {
-  student_deleteOne,
-} = require("../../controller/studentsController/deleteOne/deleteOne");
-const {
-  student_editGeneralData,
-} = require("../../controller/studentsController/editGeneralData/editGeneralData");
-const {
-  student_editPasswordAdm,
-} = require("../../controller/studentsController/editPassword/editPasswordAdm/editPasswordAdm");
-const {
-  student_editPersonalPassword,
-} = require("../../controller/studentsController/editPassword/editPersonalPassword/editPersonalPassword");
-const {
-  student_editPermissions,
-} = require("../../controller/studentsController/editPermissions/editPermissions");
-const {
-  students_getAll,
-} = require("../../controller/studentsController/getAllStudents/getAllStudents");
-const {
-  students_getOneFullName,
-} = require("../../controller/studentsController/getOneFullName/getOneFullName");
-const {
-  students_getOne,
-} = require("../../controller/studentsController/getOneStudent/getOneStudent");
-const {
-  loggedIn,
-  loggedInADM,
-  SUPREME,
-} = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
-const {
-  student_login,
-} = require("../../controller/studentsController/login/login");
-const {
-  student_postOne,
-} = require("../../controller/studentsController/postOneStudent/postOneStudent");
-const {
-  student_getAllRankingItems,
-} = require("../../controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
-const {
-  students_getAllScores,
-} = require("../../controller/studentsController/Ranking/getAllScores/getAllScores");
-const {
-  students_getTotalAllScores,
-} = require("../../controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
-const {
-  student_getScore,
-} = require("../../controller/studentsController/Ranking/getScore/getScore");
-const {
-  student_newRankingItem,
-} = require("../../controller/studentsController/Ranking/newRankingItem/newRankingItem");
-const {
-  student_resetMonth,
-} = require("../../controller/studentsController/Ranking/resetMonth/resetMonth");
-const {
-  student_scoreUpdate,
-} = require("../../controller/studentsController/Ranking/scoreUpdate/scoreUpdate");
-const {
-  student_signUp,
-} = require("../../controller/studentsController/signUp/signUp");
+const { student_deleteOne } = require("../../controller/studentsController/deleteOne/deleteOne");
+const { student_editGeneralData } = require("../../controller/studentsController/editGeneralData/editGeneralData");
+const { student_editPasswordAdm } = require("../../controller/studentsController/editPassword/editPasswordAdm/editPasswordAdm");
+const { student_editPersonalPassword } = require("../../controller/studentsController/editPassword/editPersonalPassword/editPersonalPassword");
+const { student_editPermissions } = require("../../controller/studentsController/editPermissions/editPermissions");
+const { students_getAll } = require("../../controller/studentsController/getAllStudents/getAllStudents");
+const { students_getOneFullName } = require("../../controller/studentsController/getOneFullName/getOneFullName");
+const { students_getOne } = require("../../controller/studentsController/getOneStudent/getOneStudent");
+const { loggedIn, loggedInADM, SUPREME } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
+const { student_login } = require("../../controller/studentsController/login/login");
+const { student_postOne } = require("../../controller/studentsController/postOneStudent/postOneStudent");
+const { student_getAllRankingItems } = require("../../controller/studentsController/Ranking/getAllRankingItems/getAllRankingItems");
+const { students_getAllScores } = require("../../controller/studentsController/Ranking/getAllScores/getAllScores");
+const { students_getTotalAllScores } = require("../../controller/studentsController/Ranking/getAllTotalScores/getAllTotalScores");
+const { student_getScore } = require("../../controller/studentsController/Ranking/getScore/getScore");
+const { student_newRankingItem } = require("../../controller/studentsController/Ranking/newRankingItem/newRankingItem");
+const { student_resetMonth } = require("../../controller/studentsController/Ranking/resetMonth/resetMonth");
+const { student_scoreUpdate } = require("../../controller/studentsController/Ranking/scoreUpdate/scoreUpdate");
+const { student_signUp } = require("../../controller/studentsController/signUp/signUp");
 
-// Definindo as informações das rotas para cada categoria
 const studentsRoutes = [
   {
     method: "post",

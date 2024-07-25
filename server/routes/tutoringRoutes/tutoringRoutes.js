@@ -1,19 +1,8 @@
-const {
-  loggedIn,
-  loggedInADM,
-} = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
-const {
-  tutoring_deleteOne,
-} = require("../../controller/tutoringController/deleteOneTutoring/deleteOneTutoring");
-const {
-  tutoring_getAllFromParticularStudent,
-} = require("../../controller/tutoringController/getAllFromParticularStudent/getAllFromParticularStudent");
-const {
-  tutoring_getAll,
-} = require("../../controller/tutoringController/getAllTutorings/getAllTutorings");
-const {
-  tutoring_postOne,
-} = require("../../controller/tutoringController/postOneTutoring/postOneTutoring");
+const { loggedIn, loggedInADM } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
+const { tutoring_deleteOne } = require("../../controller/tutoringController/deleteOneTutoring/deleteOneTutoring");
+const { tutoring_getAllFromParticularStudent } = require("../../controller/tutoringController/getAllFromParticularStudent/getAllFromParticularStudent");
+const { tutoring_getAll } = require("../../controller/tutoringController/getAllTutorings/getAllTutorings");
+const { tutoring_postOne } = require("../../controller/tutoringController/postOneTutoring/postOneTutoring");
 
 const tutoringRoutes = [
   {
