@@ -1,6 +1,6 @@
-const { groupClasses_getAllObjects } = require("../../controller/groupClassesController");
 const { groupClasses_delete1Class } = require("../../controller/groupClassesController/deleteOneGroupClass/deleteOneGroupClass");
 const { groupClasses_edit1Class } = require("../../controller/groupClassesController/editOneGroupClass/editOneGroupClass");
+const { groupClasses_getAllObjects } = require("../../controller/groupClassesController/getAllGroupClasses/getAllGroupClasses");
 const { groupClasses_get1Class } = require("../../controller/groupClassesController/getOneGroupClass/getOneGroupClass");
 const { groupClasses_post1Class } = require("../../controller/groupClassesController/postOneGroupClass/postOneGroupClass");
 const { loggedIn, loggedInADM, } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");

@@ -5,7 +5,6 @@ const PORT = 3502;
 const cors = require("cors");
 
 const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne } = require("./server/controller/blogPostsController");
-const { material_postNew, material_deleteOne, material_editOne, material_getAll, material_getOne } = require("./server/controller/materialController");
 const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneStatus, events_deleteOne, events_seeAllTutoringsFromOneStudent, events_editOneTutoring, event_NewTutoring, event_DeleteTutoring, events_seeNext, event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
 const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, reviewList, flashcard_getOne, allCardsList } = require("./server/controller/flashCardsController");
 const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule } = require("./server/controller/coursesController");
@@ -103,15 +102,6 @@ app.post(`${mainroute}/course`, loggedIn, loggedInADM, courseClasses_postNewCour
 app.post(`${mainroute}/module`, loggedIn, loggedInADM, courseClasses_postNewModule);
 app.get(`${mainroute}/courses/:studentId`, loggedIn, courseClasses_getAll);
 app.get(`${mainroute}/course/:id`, loggedIn, courseClasses_getOne);
-
-
-
-// **Material**
-app.post(`${mainroute}/material`, loggedIn, loggedInADM, material_postNew);
-app.delete(`${mainroute}/material/:id`, loggedIn, loggedInADM, material_deleteOne);
-app.put(`${mainroute}/material/:id`, loggedIn, loggedInADM, material_editOne);
-app.get(`${mainroute}/material/`, loggedIn, material_getAll);
-app.get(`${mainroute}/material/:id`, loggedIn, material_getOne);
 
 // **BLOG POSTS**
 app.get(`${mainroute}/blogposts`, loggedIn, blogPosts_getAll);
