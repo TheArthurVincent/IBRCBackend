@@ -3,7 +3,7 @@ const { groupClasses_edit1Class } = require("../../controller/groupClassesContro
 const { groupClasses_getAllObjects } = require("../../controller/groupClassesController/getAllGroupClasses/getAllGroupClasses");
 const { groupClasses_get1Class } = require("../../controller/groupClassesController/getOneGroupClass/getOneGroupClass");
 const { groupClasses_post1Class } = require("../../controller/groupClassesController/postOneGroupClass/postOneGroupClass");
-const { loggedIn, loggedInADM, } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
+const { loggedIn, loggedInADM } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
 
 const groupClassesRoutes = [
   {

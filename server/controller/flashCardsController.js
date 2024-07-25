@@ -3,7 +3,7 @@ const { Student_Model } = require("../models/Students");
 
 let reviewsToday = 50;
 
-const reviewList = async (req, res) => {
+const flashcard_reviewList = async (req, res) => {
   const { id } = req.params;
   let currentDate = new Date();
   let today = currentDate.toISOString().slice(0, 10);
@@ -107,6 +107,7 @@ const reviewList = async (req, res) => {
     res.status(500).json({ error: "Erro ao processar o pedido" });
   }
 };
+
 const flashcard_reviewCard = async (req, res) => {
   const { id } = req.params;
   const { flashcardId, difficulty } = req.body;
@@ -221,6 +222,7 @@ const flashcard_reviewCard = async (req, res) => {
     return res.status(500).json({ error: "Not reviewed" });
   }
 };
+
 const flashcard_createNew = async (req, res) => {
   const { id } = req.params;
   const { newCards } = req.body;
@@ -299,6 +301,7 @@ const flashcard_createNew = async (req, res) => {
     res.status(500).json({ error: "Erro ao processar o pedido" });
   }
 };
+
 const flashcard_getOne = async (req, res) => {
   const { id } = req.params;
   const { cardId } = req.query;
@@ -323,6 +326,7 @@ const flashcard_getOne = async (req, res) => {
     return res.status(500).json({ error: "Erro ao processar o pedido" });
   }
 };
+
 const flashcard_updateOne = async (req, res) => {
   const { id } = req.params;
   const { cardId } = req.query;
@@ -377,6 +381,7 @@ const flashcard_updateOne = async (req, res) => {
     res.status(500).json({ error: "Erro ao processar o pedido" });
   }
 };
+
 const flashcard_deleteCard = async (req, res) => {
   const { id } = req.params;
   const { cardId } = req.query;
@@ -408,7 +413,8 @@ const flashcard_deleteCard = async (req, res) => {
     res.status(500).json({ error: "Erro ao processar o pedido" });
   }
 };
-const allCardsList = async (req, res) => {
+
+const flashcard_allCardsList = async (req, res) => {
   let currentDate = new Date();
   let today = currentDate.toISOString().slice(0, 10);
 
@@ -440,6 +446,6 @@ module.exports = {
   flashcard_createNew,
   flashcard_getOne,
   flashcard_deleteCard,
-  reviewList,
-  allCardsList,
+  flashcard_reviewList,
+  flashcard_allCardsList,
 };

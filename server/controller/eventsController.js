@@ -281,6 +281,7 @@ const event_New = async (req, res) => {
     res.status(500).json({ Erro: "Evento não registrado" });
   }
 };
+
 const events_seeAll = async (req, res) => {
   const { id } = req.params;
   const { today } = req.query;
@@ -377,6 +378,7 @@ const events_seeNext = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const events_seeOne = async (req, res) => {
   const { id } = req.params;
   try {
@@ -386,6 +388,7 @@ const events_seeOne = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const events_editOne = async (req, res) => {
   const { category, studentID, date, time, link, description, status } =
     req.body;
@@ -417,6 +420,7 @@ const events_editOne = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const events_deleteOne = async (req, res) => {
   const { id } = req.params;
   const eventToDelete = await Events_Model.findById(id);
@@ -431,6 +435,7 @@ const events_deleteOne = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const events_editOneStatus = async (req, res) => {
   const { status } = req.body;
   const { id } = req.params;
@@ -453,7 +458,6 @@ const events_editOneStatus = async (req, res) => {
   }
 };
 
-/// tutorings
 const event_NewTutoring = async (req, res) => {
   const { day, time, link, studentID } = req.body;
   try {
@@ -546,6 +550,7 @@ const event_NewTutoring = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const events_seeAllTutoringsFromOneStudent = async (req, res) => {
   const { studentId } = req.params;
   try {
@@ -564,6 +569,7 @@ const events_seeAllTutoringsFromOneStudent = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const events_editOneTutoring = async (req, res) => {
   const { id, day, time, link, studentID } = req.body;
   try {
@@ -658,6 +664,7 @@ const events_editOneTutoring = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const event_DeleteTutoring = async (req, res) => {
   const { id, studentID, day, time } = req.body;
   try {

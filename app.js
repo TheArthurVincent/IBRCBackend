@@ -5,8 +5,7 @@ const PORT = 3502;
 const cors = require("cors");
 
 const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneStatus, events_deleteOne, events_seeAllTutoringsFromOneStudent, events_editOneTutoring, event_NewTutoring, event_DeleteTutoring, events_seeNext, event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
-const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, reviewList, flashcard_getOne, allCardsList } = require("./server/controller/flashCardsController");
-const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule } = require("./server/controller/coursesController");
+const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, flashcard_reviewList, flashcard_getOne, flashcard_allCardsList } = require("./server/controller/flashCardsController");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const { loggedIn, loggedInADM } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
@@ -15,6 +14,7 @@ const { studentsRoutes } = require("./server/routes/studentsRoutes/studentsRoute
 const { tutoringRoutes } = require("./server/routes/tutoringRoutes/tutoringRoutes");
 const { groupClassesRoutes } = require("./server/routes/groupClassesRoutes/groupClassesRoutes");
 const { blogPostsRoutes } = require("./server/routes/blogPostsRoutes/blogPostsRoutes");
+const { coursesRoutes } = require("./server/routes/coursesRoutes/coursesRoutes");
 
 database();
 app.use(express.json());
@@ -26,7 +26,8 @@ const allRoutes = [
   ...homeworkRoutes,
   ...tutoringRoutes,
   ...groupClassesRoutes,
-  ...blogPostsRoutes
+  ...blogPostsRoutes,
+  ...coursesRoutes
 ];
 
 // Funções para configurar rotas com Express
@@ -75,11 +76,6 @@ configureDeleteRoutes(app, mainroute, allRoutes.filter(route => route.method ===
 
 
 
-
-
-
-
-
 // * events *
 app.get(`${mainroute}/eventsgeneral/:id`, loggedIn, events_seeAll);
 app.get(`${mainroute}/eventseenextttoring/:id`, loggedIn, events_seeNext);
@@ -94,18 +90,11 @@ app.get(`${mainroute}/event/:id`, events_seeOne);
 app.get(`${mainroute}/tutoringsevents/:studentId`, events_seeAllTutoringsFromOneStudent);
 app.put(`${mainroute}/tutoringevent`, loggedIn, loggedInADM, events_editOneTutoring);
 
-// * Courses Management *
-app.post(`${mainroute}/courseclasses`, loggedIn, loggedInADM, courseClasses_postMultipleClasses);
-app.post(`${mainroute}/course`, loggedIn, loggedInADM, courseClasses_postNewCourse);
-app.post(`${mainroute}/module`, loggedIn, loggedInADM, courseClasses_postNewModule);
-app.get(`${mainroute}/courses/:studentId`, loggedIn, courseClasses_getAll);
-app.get(`${mainroute}/course/:id`, loggedIn, courseClasses_getOne);
-
 // Flashcards
 app.post(`${mainroute}/flashcard/:id`, loggedIn, flashcard_createNew);
 app.get(`${mainroute}/flashcardfindone/:id`, loggedIn, flashcard_getOne);
-app.get(`${mainroute}/cards/:id`, loggedIn, allCardsList);
-app.get(`${mainroute}/flashcards/:id`, loggedIn, reviewList);
+app.get(`${mainroute}/cards/:id`, loggedIn, flashcard_allCardsList);
+app.get(`${mainroute}/flashcards/:id`, loggedIn, flashcard_reviewList);
 app.put(`${mainroute}/reviewflashcard/:id`, loggedIn, flashcard_reviewCard);
 app.put(`${mainroute}/flashcard/:id`, loggedIn, flashcard_updateOne);
 app.delete(`${mainroute}/flashcard/:id`, loggedIn, flashcard_deleteCard);
