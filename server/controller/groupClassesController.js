@@ -85,78 +85,6 @@ const groupClasses_postOneClass = async (req, res) => {
   }
 };
 
-const groupClasses_editOneClass = async (req, res) => {
-  const { id } = req.params;
-  const {
-    classTitle,
-    description,
-    videoUrl,
-    moduleTitle,
-    courseTitle,
-    googleDriveLink,
-  } = req.body;
-  try {
-    const classToEdit = await GroupClass_Model.findById(id);
-    if (!classToEdit) {
-      return res.status(400).json({ message: "Aula não existe" });
-    } else if (!classTitle) {
-      return res.status(400).json({ message: "Título faltando" });
-    } else {
-      classToEdit.classTitle = classTitle;
-      classToEdit.description = description;
-      classToEdit.videoUrl = videoUrl;
-      classToEdit.moduleTitle = moduleTitle;
-      classToEdit.courseTitle = courseTitle;
-      classToEdit.googleDriveLink = googleDriveLink;
-      await classToEdit.save();
-      res.status(201).json({
-        status: "Aula atualizada",
-        classToEdit,
-      });
-    }
-  } catch (error) {
-    res.status(400).json({
-      status: "Aula não editada",
-    });
-  }
-};
-
-const groupClasses_getClassesFromOneModule = async (req, res) => {
-  const { moduleTitle, courseTitle } = req.query;
-  try {
-    const classes = await GroupClass_Model.find({
-      moduleTitle,
-      courseTitle,
-    });
-
-    res.json(classes);
-  } catch (error) {
-    console.error("Erro ao obter as aulas:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-};
-const groupClasses_getCoursesTitles = async (req, res) => {
-  const { partner } = req.query;
-  const partnerNumber = new Number(partner);
-  try {
-    await GroupClass_Model.deleteMany({ courseTitle: null });
-    const classes = await GroupClass_Model.find({
-      $and: [{ courseTitle: { $ne: null } }, { partner: partnerNumber }],
-    });
-    const filteredClasses = classes.filter(
-      (classItem) => classItem.courseTitle !== null
-    );
-    const uniqueCourseTitlesSet = new Set(
-      filteredClasses.map((classItem) => classItem.courseTitle)
-    );
-    const uniqueCourseTitles = [...uniqueCourseTitlesSet];
-    res.json(uniqueCourseTitles);
-  } catch (error) {
-    console.error("Erro ao listar cursos:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-};
-
 const groupClasses_getAllObjects = async (req, res) => {
   try {
     const classes = await GroupClass_Model.find().sort({ createdAt: -1 });
@@ -167,66 +95,8 @@ const groupClasses_getAllObjects = async (req, res) => {
   }
 };
 
-const groupClasses_getOneCourse = async (req, res) => {
-  let { courseName } = req.query;
-
-  try {
-    const classesFromTheCourse = await GroupClass_Model.find({
-      courseTitle: courseName,
-    });
-
-    const groupBy = (array, key) => {
-      return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
-        return result;
-      }, {});
-    };
-
-    const groupedClasses = groupBy(classesFromTheCourse, "moduleTitle");
-    const sortedModuleTitles = Object.keys(groupedClasses).sort();
-    const resultArray = sortedModuleTitles.map((moduleTitle) => {
-      return {
-        moduleName: moduleTitle,
-        classes: groupedClasses[moduleTitle],
-      };
-    });
-
-    res.json(resultArray);
-  } catch (error) {
-    console.error("Erro ao listar cursos:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-};
-
-const groupClasses_deleteOneClass = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const classToDelete = await GroupClass_Model.findById(id);
-    if (!classToDelete) {
-      return res.status(400).json({ message: "Aula não existe" });
-    } else {
-      await classToDelete.deleteOne();
-
-      res.status(201).json({
-        status: "Aula excluída com sucesso",
-      });
-    }
-  } catch (error) {
-    res.status(400).json({
-      status: "Aula não excluído",
-    });
-  }
-};
-
 module.exports = {
+  groupClasses_getAllObjects,
   groupClasses_getOne,
   groupClasses_postOneClass,
-  groupClasses_getClassesFromOneModule,
-  groupClasses_editOneClass,
-  groupClasses_deleteOneClass,
-  groupClasses_getCoursesTitles,
-  groupClasses_getOneCourse,
-  groupClasses_getAllObjects,
 };
