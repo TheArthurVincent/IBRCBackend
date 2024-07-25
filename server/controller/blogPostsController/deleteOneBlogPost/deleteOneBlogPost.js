@@ -5,10 +5,10 @@ const { Blog_Model } = require("../../../models/Posts");
  * @param {Object} req - O objeto de solicitação (request) da API, contendo os parâmetros da URL.
  * @param {Object} res - O objeto de resposta (response) da API.
  * @async
- * @function blogPosts_deleteOne
+ * @function blogPosts_delete1
  * @returns {Promise<void>} Não retorna nada explicitamente, mas envia uma resposta ao cliente.
  */
-const blogPosts_deleteOne = async (req, res) => {
+const blogPosts_delete1 = async (req, res) => {
   try {
     // Recupera o post específico pelo ID fornecido na URL
     const blogPost = await Blog_Model.findById(req.params.id);
@@ -35,4 +35,4 @@ const blogPosts_deleteOne = async (req, res) => {
   }
 };
 
-module.exports = { blogPosts_deleteOne };
+module.exports = { blogPosts_delete1 };

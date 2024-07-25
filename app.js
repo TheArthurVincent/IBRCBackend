@@ -8,13 +8,13 @@ const { event_New, events_editOne, events_seeAll, events_seeOne, events_editOneS
 const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, reviewList, flashcard_getOne, allCardsList } = require("./server/controller/flashCardsController");
 const { courseClasses_postMultipleClasses, courseClasses_getAll, courseClasses_getOne, courseClasses_postNewCourse, courseClasses_postNewModule } = require("./server/controller/coursesController");
 
-const { blogPosts_getAll, blogPosts_editOne, blogPosts_getOne, blogPosts_postOne, blogPosts_deleteOne } = require("./server/controller/blogPostsController");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const { loggedIn, loggedInADM } = require("./server/controller/studentsController/loggedInAuth/loggedInAuth");
 const { homeworkRoutes } = require("./server/routes/homeworkRoutes/homeworkRoutes");
 const { studentsRoutes } = require("./server/routes/studentsRoutes/studentsRoutes");
 const { tutoringRoutes } = require("./server/routes/tutoringRoutes/tutoringRoutes");
 const { groupClassesRoutes } = require("./server/routes/groupClassesRoutes/groupClassesRoutes");
+const { blogPostsRoutes } = require("./server/routes/blogPostsRoutes/blogPostsRoutes");
 
 database();
 app.use(express.json());
@@ -25,7 +25,8 @@ const allRoutes = [
   ...studentsRoutes,
   ...homeworkRoutes,
   ...tutoringRoutes,
-  ...groupClassesRoutes
+  ...groupClassesRoutes,
+  ...blogPostsRoutes
 ];
 
 // Funções para configurar rotas com Express
@@ -66,16 +67,6 @@ configurePostRoutes(app, mainroute, allRoutes.filter(route => route.method === '
 configureGetRoutes(app, mainroute, allRoutes.filter(route => route.method === 'get'));
 configurePutRoutes(app, mainroute, allRoutes.filter(route => route.method === 'put'));
 configureDeleteRoutes(app, mainroute, allRoutes.filter(route => route.method === 'delete'));
-
-
-
-// **BLOG POSTS**
-app.get(`${mainroute}/blogposts`, loggedIn, blogPosts_getAll);
-app.get(`${mainroute}/blogpost/:id`, loggedIn, blogPosts_getOne);
-app.post(`${mainroute}/blogposts`, loggedIn, loggedInADM, blogPosts_postOne);
-app.put(`${mainroute}/blogposts/:id`, loggedIn, loggedInADM, blogPosts_editOne);
-app.delete(`${mainroute}/blogposts/:id`, loggedIn, loggedInADM, blogPosts_deleteOne);
-
 
 
 

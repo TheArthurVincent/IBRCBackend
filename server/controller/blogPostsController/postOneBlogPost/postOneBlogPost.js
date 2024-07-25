@@ -10,7 +10,7 @@ const { sendEmail } = require("../../../useful/sendpulse");
  * @function blogPosts_postOne
  * @returns {Promise<void>} Não retorna nada explicitamente, mas envia uma resposta ao cliente.
  */
-const blogPosts_postOne = async (req, res) => {
+const blogPosts_post1 = async (req, res) => {
   // Desestrutura os dados do corpo da solicitação
   const { title, videoUrl, text, img } = req.body;
 
@@ -61,4 +61,4 @@ const blogPosts_postOne = async (req, res) => {
   }
 };
 
-module.exports = { blogPosts_postOne };
+module.exports = { blogPosts_post1 };

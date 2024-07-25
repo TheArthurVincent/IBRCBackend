@@ -6,10 +6,10 @@ const { Blog_Model } = require("../../../models/Posts");
  * @param {Object} req - O objeto de solicitação (request) da API, contendo os parâmetros da URL e o corpo da solicitação.
  * @param {Object} res - O objeto de resposta (response) da API.
  * @async
- * @function blogPosts_editOne
+ * @function blogPosts_edit1
  * @returns {Promise<void>} Não retorna nada explicitamente, mas envia uma resposta ao cliente.
  */
-const blogPosts_editOne = async (req, res) => {
+const blogPosts_edit1 = async (req, res) => {
   // Desestrutura os dados do corpo da solicitação
   const { title, videoUrl, text, img } = req.body;
 
@@ -68,4 +68,4 @@ const blogPosts_editOne = async (req, res) => {
   }
 };
 
-module.exports = { blogPosts_editOne };
+module.exports = { blogPosts_edit1 };
