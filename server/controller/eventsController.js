@@ -517,35 +517,6 @@ const events_editOneTutoring = async (req, res) => {
   }
 };
 
-const event_DeleteTutoring = async (req, res) => {
-  const { id, studentID, day, time } = req.body;
-  try {
-    if (!id || !studentID || !day || !time) {
-      return res.status(400).json({ message: "Informações faltantes" });
-    }
-
-    const student = await Student_Model.findById(studentID);
-    if (!student) {
-      return res.status(404).json({ message: "Aluno não encontrado" });
-    }
-
-    student.tutoringDays = student.tutoringDays.filter(
-      (tutoring) => tutoring.id.toString() !== id
-    );
-
-    await student.save();
-
-    await Events_Model.deleteMany({
-      tutoringID: id,
-    });
-
-    return res.status(200).json({ student });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
 
 
 module.exports = {
@@ -558,10 +529,7 @@ module.exports = {
   //U
   events_editOneStatus,
   events_editOneTutoring,
-  //D
-  event_DeleteTutoring,
-
-  //#
+    //#
   event_reminderEventAutomatic,
   event_reminderGroupClassAutomatic,
 };

@@ -1,4 +1,5 @@
 const { events_delete1Event } = require("../../controller/eventsController/deleteOneEvent/deleteOneEvent");
+const { event_Delete1SequenceOfTutorings } = require("../../controller/eventsController/deleteOneTutoring/deleteOneTutoring");
 const { events_edit1Event } = require("../../controller/eventsController/editOneEvent/editOneEvent");
 const { events_see1Event } = require("../../controller/eventsController/getOneEvent/getOneEvent");
 const { event_NewEvent } = require("../../controller/eventsController/newEvent/newEvent");
@@ -36,17 +37,17 @@ const eventsRoutes = [
     middlewares: [loggedIn, loggedInADM],
     handler: events_delete1Event,
   },
+  {
+    method: "delete",
+    path: "/tutoringevent",
+    middlewares: [loggedIn, loggedInADM],
+    handler: event_Delete1SequenceOfTutorings,
+  },
   // {
   //   method: "post",
   //   path: "/tutoringevent",
   //   middlewares: [loggedInADM],
   // handler: event_NewTutoring,
-  // },
-  // {
-  //   method: "delete",
-  //   path: "/tutoringevent",
-  //   middlewares: [loggedInADM],
-  // handler: event_DeleteTutoring,
   // },
   // {
   //   method: "put",
