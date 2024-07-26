@@ -37,15 +37,6 @@ configureGetRoutes(app, mainroute, allRoutes.filter((route) => route.method === 
 configurePutRoutes(app, mainroute, allRoutes.filter((route) => route.method === "put"));
 configureDeleteRoutes(app, mainroute, allRoutes.filter((route) => route.method === "delete"));
 
-// * events *
-const { event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
-
-app.post(`${mainroute}/eventreminder/:id`, event_reminderEvent);
-app.get(`${mainroute}/sendnotificationemail`, event_reminderEventAutomatic);
-
-
-
-
 // Flashcards
 const { flashcard_reviewCard, flashcard_createNew, flashcard_updateOne, flashcard_deleteCard, flashcard_reviewList, flashcard_getOne, flashcard_allCardsList } = require("./server/controller/flashCardsController");
 

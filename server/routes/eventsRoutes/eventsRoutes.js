@@ -7,6 +7,8 @@ const { events_edit1Tutoring } = require("../../controller/eventsController/edit
 const { events_see1Event } = require("../../controller/eventsController/getOneEvent/getOneEvent");
 const { event_NewEvent } = require("../../controller/eventsController/newEvent/newEvent");
 const { event_NewTutoring } = require("../../controller/eventsController/newTutoring/newTutoring");
+const { event_reminderEvent } = require("../../controller/eventsController/remindersEvent/reminderEvent/reminderEvent");
+const { event_reminderAutomatic } = require("../../controller/eventsController/remindersEvent/reminderEventAuto/reminderEventAuto");
 const { events_seeAllEvents } = require("../../controller/eventsController/seeAllEvents/seeAllEvents");
 const { loggedInADM, loggedIn } = require("../../controller/studentsController/loggedInAuth/loggedInAuth");
 
@@ -71,12 +73,18 @@ const eventsRoutes = [
     middlewares: [loggedIn, loggedInADM],
     handler: events_edit1Tutoring,
   },
-  // {
-  //   method: "post",
-  //   path: "/eventreminder/:id",
-  //   middlewares: [loggedInADM],
-  // handler: event_reminderEvent,
-  // },
+  {
+    method: "get",
+    path: "/sendnotificationemail",
+    middlewares: [],
+    handler: event_reminderAutomatic,
+  },
+  {
+    method: "post",
+    path: "/eventreminder/:id",
+    middlewares: [loggedIn, loggedInADM],
+    handler: event_reminderEvent,
+  },
   // {
   //   method: "get",
   //   path: "/event/:id",
