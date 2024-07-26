@@ -248,98 +248,6 @@ const event_reminderGroupClassAutomatic = async (req, res) => {
   }
 };
 
-const event_New = async (req, res) => {
-  const { studentID, link, date, time, category, description } = req.body;
-
-  try {
-    if (!link || !date || !category) {
-      res.status(500).json({ Erro: "Informações faltantes" });
-    } else {
-      if (studentID) {
-        var student = await Student_Model.findById(studentID);
-        var studentName = student.name + " " + student.lastname;
-      }
-      const newEvent = await Events_Model({
-        studentID,
-        student: studentName ? studentName : null,
-        description,
-        link,
-        date,
-        time,
-        category,
-      });
-
-      await newEvent.save();
-
-      res.status(200).json({
-        message: "Aula marcada",
-        newEvent,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ Erro: "Evento não registrado" });
-  }
-};
-
-const events_seeAll = async (req, res) => {
-  const { id } = req.params;
-  const { today } = req.query;
-  const hoje = new Date(today);
-
-  const limit = new Date(hoje);
-  limit.setDate(limit.getDate() + 11);
-
-  const yesterday = new Date(hoje);
-  yesterday.setDate(yesterday.getDate() - 3);
-
-  const filtrarEventos = (eventsList) => {
-    const eventosFiltrados = eventsList.filter(function (evento) {
-      const dataEvento = new Date(evento.date);
-      return dataEvento >= yesterday && dataEvento <= limit;
-    });
-    return eventosFiltrados;
-  };
-
-  try {
-    const student = await Student_Model.findById(id);
-
-    if (!student) {
-      return res.status(404).json({ error: "Student not found" });
-    }
-
-    let events;
-    if (student.permissions === "superadmin") {
-      events = await Events_Model.find();
-    } else {
-      events = await Events_Model.find({
-        $or: [
-          { category: "Group Class" },
-          {
-            $and: [
-              { studentID: id },
-              { category: { $in: ["Tutoring", "Rep", "Prize Class"] } },
-            ],
-          },
-        ],
-      });
-    }
-
-    const eventsList = events.map((event) => {
-      const dateObject = new Date(event.date);
-      event.date = dateObject;
-      return event;
-    });
-
-    const eventsFiltered = filtrarEventos(eventsList);
-
-    return res.status(200).json({ eventsList: eventsFiltered });
-  } catch (error) {
-    console.error("Error fetching events:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
 const events_seeNext = async (req, res) => {
   const { id } = req.params;
 
@@ -379,62 +287,6 @@ const events_seeNext = async (req, res) => {
   }
 };
 
-const events_seeOne = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const event = await Events_Model.findById(id);
-    res.status(200).json({ event });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-const events_editOne = async (req, res) => {
-  const { category, studentID, date, time, link, description, status } =
-    req.body;
-  const { id } = req.params;
-  const editedEvent = await Events_Model.findById(id);
-  const student = studentID ? await Student_Model.findById(studentID) : null;
-  const studentName = studentID ? student.name + " " + student.lastname : null;
-  try {
-    if (!date || !link || !category || !status || !editedEvent) {
-      res.status(500).json({ info: "informações faltantes" });
-    } else {
-      if (!editedEvent) {
-        return res.status(500).json("Evento não encontado");
-      } else {
-        editedEvent.category = category;
-        editedEvent.studentID = studentID ? studentID : null;
-        editedEvent.student = studentID ? studentName : null;
-        editedEvent.date = date;
-        editedEvent.time = time;
-        editedEvent.link = link;
-        editedEvent.edited ? (editedEvent.edited = true) : null;
-        editedEvent.description = description ? description : "";
-        editedEvent.status = status;
-        editedEvent.save();
-        res.status(200).json({ message: "Success!", editedEvent });
-      }
-    }
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-const events_deleteOne = async (req, res) => {
-  const { id } = req.params;
-  const eventToDelete = await Events_Model.findById(id);
-  try {
-    if (!eventToDelete) {
-      return res.status(500).json("Evento não encontado");
-    } else {
-      eventToDelete.deleteOne();
-      res.status(200).json({ message: "Success!", eventToDelete });
-    }
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
 
 const events_editOneStatus = async (req, res) => {
   const { status } = req.body;
@@ -694,22 +546,19 @@ const event_DeleteTutoring = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
-  //C
-  event_New,
+  
   event_NewTutoring,
   event_reminderEvent,
   //R
-  events_seeAll,
   events_seeAllTutoringsFromOneStudent,
-  events_seeOne,
   events_seeNext,
   //U
-  events_editOne,
   events_editOneStatus,
   events_editOneTutoring,
   //D
-  events_deleteOne,
   event_DeleteTutoring,
 
   //#

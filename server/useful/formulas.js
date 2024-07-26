@@ -24,34 +24,20 @@ function configureGetRoutes(app, mainroute, routes) {
 }
 
 function configurePostRoutes(app, mainroute, routes) {
-  routes.forEach((route) => {
-    if (route.method === "post") {
-      app.post(
-        `${mainroute}${route.path}`,
-        ...route.middlewares,
-        route.handler
-      );
-    }
-  });
+    routes.forEach((route) => {
+      if (route.method === "post") {
+        app.post(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
+      }
+    });
 }
 
 function configurePutRoutes(app, mainroute, routes) {
-  routes.forEach((route) => {
-    if (route.method === "put") {
-      app.put(`${mainroute}${route.path}`, ...route.middlewares, route.handler);
-    }
-  });
+  routes.forEach((route) => { if (route.method === "put") { app.put(`${mainroute}${route.path}`, ...route.middlewares, route.handler); } });
 }
 
 function configureDeleteRoutes(app, mainroute, routes) {
   routes.forEach((route) => {
-    if (route.method === "delete") {
-      app.delete(
-        `${mainroute}${route.path}`,
-        ...route.middlewares,
-        route.handler
-      );
-    }
+    if (route.method === "delete") { app.delete(`${mainroute}${route.path}`, ...route.middlewares, route.handler); }
   });
 }
 
