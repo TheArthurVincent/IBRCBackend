@@ -38,11 +38,10 @@ configurePutRoutes(app, mainroute, allRoutes.filter((route) => route.method === 
 configureDeleteRoutes(app, mainroute, allRoutes.filter((route) => route.method === "delete"));
 
 // * events *
-const { events_editOneTutoring, event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
+const { event_reminderEvent, event_reminderEventAutomatic } = require("./server/controller/eventsController");
 
 app.post(`${mainroute}/eventreminder/:id`, event_reminderEvent);
-app.put(`${mainroute}/tutoringevent`, loggedIn, loggedInADM, events_editOneTutoring);
-app.get(`${mainroute}/sendnotificationemail`, loggedIn, event_reminderEventAutomatic);
+app.get(`${mainroute}/sendnotificationemail`, event_reminderEventAutomatic);
 
 
 
