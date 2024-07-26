@@ -288,28 +288,6 @@ const events_seeNext = async (req, res) => {
 };
 
 
-const events_editOneStatus = async (req, res) => {
-  const { status } = req.body;
-  const { id } = req.params;
-  const editedEvent = await Events_Model.findById(id);
-  try {
-    if (!status) {
-      res.status(500).json({ info: "informações faltantes" });
-    } else {
-      if (!editedEvent) {
-        return res.status(500).json("Evento não encontado");
-      } else {
-        editedEvent.status = status;
-        editedEvent.edited = true;
-        editedEvent.save();
-        res.status(200).json({ message: "Success!", editedEvent });
-      }
-    }
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
 const event_NewTutoring = async (req, res) => {
   const { day, time, link, studentID } = req.body;
   try {
@@ -527,7 +505,6 @@ module.exports = {
   events_seeAllTutoringsFromOneStudent,
   events_seeNext,
   //U
-  events_editOneStatus,
   events_editOneTutoring,
     //#
   event_reminderEventAutomatic,
