@@ -69,3 +69,6 @@ configureDeleteRoutes(
 
 // Inicia o servidor e escuta na porta especificada
 app.listen(PORT, () => { console.log(`Servidor está rodando na porta ${PORT}`) });
+
+
+// Antes da atualização --> app.post(`${mainroute}/eventreminder/:id`, event_reminderEvent);
