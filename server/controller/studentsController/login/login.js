@@ -3,7 +3,8 @@ const { Student_Model } = require("../../../models/Students");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-
+console.log("process.env.SECRET", process.env.SECRET)
+console.log("process.env.UNIVERSAL", process.env.UNIVERSAL)
 
 /**
  * Controller function to handle student login.
@@ -20,7 +21,7 @@ const student_login = async (req, res) => {
 
   if (!password) {
     // Set default password if not provided
-    return res.status(400).json("Digite sua senha"); // Portuguese for "Enter your email"
+    return res.status(400).json("Digite sua senha"); // Portuguese for "Enter your password"
   } else if (!email) {
     // Return error if email is missing
     return res.status(400).json("Digite seu e-mail"); // Portuguese for "Enter your email"
@@ -43,7 +44,7 @@ const student_login = async (req, res) => {
 
     // Generate JWT token for authenticated student session
     const token = jwt.sign({ id: student._id }, process.env.SECRET, {
-      expiresIn: '30d',
+      expiresIn: '1d',
     });
 
 
