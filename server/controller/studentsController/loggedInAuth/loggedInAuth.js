@@ -2,8 +2,6 @@ const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const { Student_Model } = require("../../../models/Students");
 require('dotenv').config();
-console.log("process.env.SECRET", process.env.SECRET)
-console.log("process.env.UNIVERSAL", process.env.UNIVERSAL)
 
 
 // Mensagens de erro padronizadas

@@ -3,8 +3,6 @@ const { Student_Model } = require("../../../models/Students");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-console.log("process.env.SECRET", process.env.SECRET)
-console.log("process.env.UNIVERSAL", process.env.UNIVERSAL)
 
 /**
  * Controller function to handle student login.
