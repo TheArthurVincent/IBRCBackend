@@ -2,6 +2,8 @@
 const { Student_Model } = require("../../../models/Students");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require('dotenv').config();
+
 
 /**
  * Controller function to handle student login.
@@ -10,16 +12,15 @@ const jwt = require("jsonwebtoken");
  *
  * @param {Object} req - Express request object containing email and password in body
  * @param {Object} res - Express response object for sending JSON response
- */
+*/
 const student_login = async (req, res) => {
   const { email, password } = req.body;
 
   // Universal password used if no password is provided in the request
-  const universalPassword = "56+89-123456";
 
   if (!password) {
     // Set default password if not provided
-    req.body.password = universalPassword;
+    return res.status(400).json("Digite sua senha"); // Portuguese for "Enter your email"
   } else if (!email) {
     // Return error if email is missing
     return res.status(400).json("Digite seu e-mail"); // Portuguese for "Enter your email"
@@ -32,7 +33,7 @@ const student_login = async (req, res) => {
     if (!student) throw new Error("Usuário não encontrado"); // Portuguese for "User not found"
 
     // Check if the provided password matches the stored password or universal password
-    const isUniversalPassword = password === universalPassword;
+    const isUniversalPassword = password === process.env.UNIVERSAL;
 
     if (
       !(await bcrypt.compare(password, student.password)) &&
@@ -41,9 +42,10 @@ const student_login = async (req, res) => {
       throw new Error("Senha incorreta"); // Portuguese for "Incorrect password"
 
     // Generate JWT token for authenticated student session
-    const token = jwt.sign({ id: student._id }, "secretToken()", {
-      expiresIn: "30d", // Token expires in 30 days
+    const token = jwt.sign({ id: student._id }, process.env.SECRET, {
+      expiresIn: '30d',
     });
+
 
     // Logged-in student data to send in response
     const loggedIn = {

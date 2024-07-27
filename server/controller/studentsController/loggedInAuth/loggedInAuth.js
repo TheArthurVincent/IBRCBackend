@@ -1,6 +1,7 @@
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const { Student_Model } = require("../../../models/Students");
+require('dotenv').config();
 
 // Mensagens de erro padronizadas
 const ERRORS = {
@@ -21,9 +22,10 @@ const ERRORS = {
  * @returns {Promise<Object>} Dados decodificados do token JWT
  * @throws {Error} Se o token JWT for inválido
  */
+
 const verifyToken = async (token) => {
   try {
-    return await promisify(jwt.verify)(token, "secretToken()");
+    return await promisify(jwt.verify)(token, process.env.SECRET);
   } catch (error) {
     throw new Error(ERRORS.INVALID_LOGIN);
   }
