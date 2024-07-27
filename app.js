@@ -68,6 +68,4 @@ configureDeleteRoutes(
 );
 
 // Inicia o servidor e escuta na porta especificada
-app.listen(PORT, () => {
-  console.log(`Servidor está rodando na porta ${PORT}`);
-});
+app.listen(PORT, () => { console.log(`Servidor está rodando na porta ${PORT}`) });
