@@ -3,6 +3,7 @@ const database = require("./db/conn");
 const cors = require("cors");
 const PORT = 3502; // Porta em que o servidor irá rodar
 const app = express(); // Cria uma instância do aplicativo Express
+require('dotenv').config();
 
 /**
  * Importa funções e rotas necessárias para configurar o servidor.
