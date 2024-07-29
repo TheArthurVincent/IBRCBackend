@@ -52,7 +52,7 @@ const studentsRoutes = [
   {
     method: "get",
     path: "/allitemhistory",
-    middlewares: [loggedIn, loggedInADM],
+    middlewares: [loggedIn],
     handler: student_getAllRankingItems,
   },
   {
