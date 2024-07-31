@@ -42,7 +42,7 @@ const student_login = async (req, res) => {
 
     // Generate JWT token for authenticated student session
     const token = jwt.sign({ id: student._id }, process.env.SECRET, {
-      expiresIn: '1d',
+      expiresIn: '7d',
     });
 
 
