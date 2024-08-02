@@ -49,9 +49,7 @@ const flashcardsRoutes = [
     path: "/reviewflashcard/:id",
     middlewares: [loggedIn],
     handler: flashcard_review1Card,
-  },
-
-
+  }
 ];
 
 module.exports = { flashcardsRoutes };
