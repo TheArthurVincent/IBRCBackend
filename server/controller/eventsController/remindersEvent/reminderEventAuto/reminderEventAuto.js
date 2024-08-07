@@ -49,13 +49,8 @@ const event_reminderAutomatic = async (req, res) => {
         const [eventHour] = time.split(":").map(Number);
 
         // Verifica se a hora atual está dentro do intervalo de lembrete e se a categoria é válida.
-        const test =
-            category !== "Group Class" &&
-            category !== "Test" &&
-            category !== "Standalone";
-        if (now.getHours() + 1 !== eventHour || test) {
-            continue;
-        }
+        const test = category !== "Group Class" && category !== "Test" && category !== "Standalone";
+        if (now.getHours() + 1 !== eventHour || test) { continue; }
 
         // Busca o estudante associado ao evento.
         const student = await Student_Model.findById(studentID);
@@ -104,11 +99,11 @@ const event_reminderAutomatic = async (req, res) => {
                                 "arthurcardosocorp@gmail.com"
                             );
 
-                            
+
                             // Atualiza o evento para marcar que o e-mail foi enviado.
                             event.emailSent = true;
                             await event.save();
-                            
+
                             // Retorna uma resposta de sucesso.
                             console.log(`Email de ${name} enviado com sucesso`);
                             return res.status(200).json({ message: "Email enviado com sucesso" });
