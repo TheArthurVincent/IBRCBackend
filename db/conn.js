@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 async function main() {
   try {
     await mongoose.connect(
-      "mongodb+srv://actualvincent:VRdsUMFo8rJ70KKX@arvin.aotxd5a.mongodb.net/?retryWrites=true&w=majority", // Banco de produção
-      // "mongodb+srv://devtestarvin:SolusChristus%232024@cluster0.3cyvcjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",  // Banco de desenvolvimento
+      "mongodb+srv://ibrc:SolusChristus%232024@cluster0.oojizmi.mongodb.net/?retryWrites=true&w=majority",
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -12,8 +11,8 @@ async function main() {
         socketTimeoutMS: 5000,
       }
     );
-    
-    console.log("MONGO: Banco de dados ARVIN conectado com sucesso");
+
+    console.log("MONGO: Banco de dados IBRC conectado com sucesso");
   } catch (e) {
     console.error(`Erro na conexão com o MongoDB: ${e}`);
   }
