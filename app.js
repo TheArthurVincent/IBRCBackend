@@ -17,6 +17,7 @@ const { blogPostsRoutes } = require("./server/routes/blogPostsRoutes/blogPostsRo
 const { coursesRoutes } = require("./server/routes/coursesRoutes/coursesRoutes");
 const { eventsRoutes } = require("./server/routes/eventsRoutes/eventsRoutes");
 const { flashcardsRoutes } = require("./server/routes/flashcardsRoutes/flashcardsRoutes");
+const { liturgiaRoutes } = require("./server/routes/liturgiaRoutes/liturgiaRoutes");
 
 // Conecta ao banco de dados
 database();
@@ -42,6 +43,7 @@ const allRoutes = [
   ...blogPostsRoutes,
   ...coursesRoutes,
   ...flashcardsRoutes,
+  ...liturgiaRoutes
 ];
 
 /**
